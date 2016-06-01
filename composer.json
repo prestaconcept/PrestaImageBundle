@@ -1,0 +1,26 @@
+{
+    "name": "presta/image-bundle",
+    "type": "symfony-bundle",
+    "description": "Allow to crop local and remote image before uploading them through a classic form.",
+    "keywords": ["symfony2", "bundle", "form", "image", "picture", "local", "remote"],
+    "homepage": "https://github.com/prestaconcept/PrestaImageBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benoit Jouhaud",
+            "email": "bjouhaud@prestaconcept.net",
+            "homepage": "http://www.prestaconcept.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/framework-bundle": "~2.8|~3.0",
+        "vich/uploader-bundle": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Presta\\ImageBundle\\": ""
+        }
+    },
+    "minimum-stability": "stable"
+}
