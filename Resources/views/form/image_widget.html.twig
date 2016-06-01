@@ -1,0 +1,67 @@
+{% block image_widget %}
+{% spaceless %}
+    <div class="cropper">
+        <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}">
+            {% if form.vars.download_uri %}
+                <img src="{{ asset(form.vars.download_uri) }}">
+            {% endif %}
+        </div>
+
+        {{ form_row(form.base64) }}
+
+        <div class="row">
+            <div class="col-md-3 cropper-local">
+                <input type="file" name="file" class="hidden" />
+                <button type="button" class="btn btn-info">
+                    <span class="fa fa-upload"></span>
+                    {{ 'btn_import_image_local'|trans }}
+                </button>
+            </div>
+            <div class="col-md-6 cropper-remote">
+                <div class="input-group">
+                    <input type="url" class="form-control" placeholder="{{ 'image_dist_placeholder'|trans }}" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-upload-dist" disabled="disabled">
+                            <span class="fa fa-upload"></span>
+                            {{ 'btn_import_image_remote'|trans }}
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">{{ 'resize_image'|trans }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="cropper-preview"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="btn-group-vertical pull-right" data-toggle="buttons">
+                                    {% for aspect_ratio in aspect_ratios %}
+                                        <label class="btn btn-primary{% if aspect_ratio.checked %} active{% endif %}">
+                                            <input type="radio" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
+                                            {{ aspect_ratio.label }}
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'btn_cancel'|trans }}</button>
+                        <button type="button" class="btn btn-primary" data-method="getCroppedCanvas">{{ 'btn_validate'|trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock %}
