@@ -50,16 +50,14 @@ class ImageType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $aspectRatios = [];
-
-        $this->addAspectRatio($aspectRatios, '16_9', 1.78);
-        $this->addAspectRatio($aspectRatios, '4_3', 1.33);
-        $this->addAspectRatio($aspectRatios, '1', 1);
-        $this->addAspectRatio($aspectRatios, '2_3', 0.66);
-        $this->addAspectRatio($aspectRatios, 'nan', null, true);
-
         $resolver
-            ->setDefault('aspect_ratios', $aspectRatios)
+            ->setDefault('aspect_ratios', [
+                '16_9' => new AspectRatio(1.78, $this->translator->trans('aspect_ratio.16_9')),
+                '4_3' => new AspectRatio(1.33, $this->translator->trans('aspect_ratio.4_3')),
+                '1' => new AspectRatio(1, $this->translator->trans('aspect_ratio.1')),
+                '2_3' => new AspectRatio(0.66, $this->translator->trans('aspect_ratio.2_3')),
+                'nan' => new AspectRatio(null, $this->translator->trans('aspect_ratio.free'), true),
+            ])
             ->setDefault('max_width', 320)
             ->setDefault('max_height', 180)
         ;
@@ -81,18 +79,5 @@ class ImageType extends AbstractType
     public function getParent()
     {
         return VichFileType::class;
-    }
-
-    /**
-     * @param array $aspectRatios
-     * @param float $value
-     * @param string $key
-     * @param bool $checked
-     */
-    private function addAspectRatio(array &$aspectRatios, $value, $key, $checked = false)
-    {
-        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $key), [], 'PrestaImageBundle');
-
-        $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
 }
