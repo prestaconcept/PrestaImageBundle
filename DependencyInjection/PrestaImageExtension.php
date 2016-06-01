@@ -17,7 +17,7 @@ class PrestaImageExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(sprintf('%s/../Resources/config', __DIR__)));
+        $loader = new XmlFileLoader($container, new FileLocator(sprintf('%s/../Resources/config/services', __DIR__)));
         $loader->load('form.xml');
     }
 }
