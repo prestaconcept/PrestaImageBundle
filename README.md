@@ -1,6 +1,11 @@
 PrestaImageBundle
 ===================
 
+[![Build Status](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/presta/image-bundle/v/stable.png)](https://packagist.org/packages/presta/image-bundle)
+[![Total Downloads](https://poser.pugx.org/presta/image-bundle/downloads.png)](https://packagist.org/packages/presta/image-bundle)
+
 ## Overview
 
 PrestaImageBundle is a Symfony bundle providing tools to resize local/remote images before uploading them through a classic form.
