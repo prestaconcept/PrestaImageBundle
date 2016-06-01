@@ -1,0 +1,10 @@
+checks:
+    php: true
+
+filter:
+    excluded_paths:
+        - vendor/*
+
+tools:
+    external_code_coverage:
+        timeout: 500
