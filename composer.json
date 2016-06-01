@@ -8,14 +8,14 @@
     "authors": [
         {
             "name": "Benoit Jouhaud",
-            "email": "bjouhaud@prestaconcept.net",
-            "homepage": "http://www.prestaconcept.net/"
+            "email": "bjouhaud@prestaconcept.net"
         }
     ],
     "require": {
         "php": ">=5.5.9",
         "symfony/form": "~2.8|~3.0",
-        "vich/uploader-bundle": "^1.1"
+        "vich/uploader-bundle": "^1.1",
+        "friendsofsymfony/jsrouting-bundle": "^1.6"
     },
     "autoload": {
         "psr-4": {
