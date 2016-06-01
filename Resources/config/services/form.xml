@@ -6,8 +6,6 @@
 
     <services>
         <service id="presta_image.form.type.image" class="Presta\ImageBundle\Form\Type\ImageType">
-            <argument type="service" id="vich_uploader.storage"/>
-            <argument type="service" id="vich_uploader.upload_handler"/>
             <argument type="service" id="translator"/>
 
             <tag name="form.type"/>
