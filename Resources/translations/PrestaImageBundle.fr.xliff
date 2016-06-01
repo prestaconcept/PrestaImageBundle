@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="file.ext">
+    <file source-language="en" datatype="plaintext" original="PrestaImageBundle.fr.xliff">
         <body>
             <trans-unit id="resize_image">
                 <source>resize_image</source>
@@ -42,8 +42,8 @@
                 <source>aspect_ratio.2_3</source>
                 <target>2:3</target>
             </trans-unit>
-            <trans-unit id="aspect_ratio.free">
-                <source>aspect_ratio.free</source>
+            <trans-unit id="aspect_ratio.nan">
+                <source>aspect_ratio.nan</source>
                 <target>Libre</target>
             </trans-unit>
         </body>
