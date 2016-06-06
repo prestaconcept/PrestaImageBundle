@@ -1,6 +1,6 @@
 <?php
 
-namespace Presta\ImageBundle\Model\Cropper;
+namespace Presta\ImageBundle\Model;
 
 /**
  * @author Benoit Jouhaud <bjouhaud@prestaconcept.net>
