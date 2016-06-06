@@ -2,7 +2,8 @@
 
 namespace Presta\ImageBundle\Form\Type;
 
-use Presta\ImageBundle\Model\Cropper\AspectRatio;
+use Presta\ImageBundle\Form\DataTransformer\Base64ToImageTransformer;
+use Presta\ImageBundle\Model\AspectRatio;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
-use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
  * @author Benoit Jouhaud <bjouhaud@prestaconcept.net>
@@ -23,11 +24,18 @@ class ImageType extends AbstractType
     private $translator;
 
     /**
-     * @param TranslatorInterface $translator
+     * @var StorageInterface
      */
-    public function __construct(TranslatorInterface $translator)
+    private $storage;
+
+    /**
+     * @param TranslatorInterface $translator
+     * @param StorageInterface    $storage
+     */
+    public function __construct(TranslatorInterface $translator, StorageInterface $storage)
     {
         $this->translator = $translator;
+        $this->storage = $storage;
     }
 
     /**
@@ -41,8 +49,9 @@ class ImageType extends AbstractType
                     'class' => 'cropper-base64',
                 ],
             ])
-            ->remove('file')
         ;
+
+        $builder->addModelTransformer(new Base64ToImageTransformer);
     }
 
     /**
@@ -62,6 +71,8 @@ class ImageType extends AbstractType
             ->setDefault('aspect_ratios', $aspectRatios)
             ->setDefault('max_width', 320)
             ->setDefault('max_height', 180)
+            ->setDefault('download_uri', null)
+            ->setDefault('download_link', true)
         ;
     }
 
@@ -73,14 +84,11 @@ class ImageType extends AbstractType
         $view->vars['aspect_ratios'] = $options['aspect_ratios'];
         $view->vars['max_width'] = $options['max_width'];
         $view->vars['max_height'] = $options['max_height'];
-    }
+        $view->vars['object'] = $form->getParent()->getData();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return VichFileType::class;
+        if ($options['download_link'] && $view->vars['object']) {
+            $view->vars['download_uri'] = $this->storage->resolveUri($form->getParent()->getData(), $form->getName());
+        }
     }
 
     /**
