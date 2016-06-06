@@ -1,9 +1,14 @@
 PrestaImageBundle
 ===================
 
+[![Build Status](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/presta/image-bundle/v/stable.png)](https://packagist.org/packages/presta/image-bundle)
+[![Total Downloads](https://poser.pugx.org/presta/image-bundle/downloads.png)](https://packagist.org/packages/presta/image-bundle)
+
 ## Overview
 
-PrestaImageBundle is a Symfony bundle providing tools to resize local/remote images before uploading them through a classic form. 
+PrestaImageBundle is a Symfony bundle providing tools to resize local/remote images before uploading them through a classic form.
 It uses [Cropper][1] jQuery plugin.
 
 ## Installation
@@ -14,24 +19,83 @@ It uses [Cropper][1] jQuery plugin.
 php composer.phar require presta/image-bundle
 ```
 
-### Enable the bundle in the kernel
+### Enable the bundles in the kernel
+
+You must add the following bundles into `app/AppKernel.php`:
 
 ```php
 <?php
-// app/AppKernel.php
 
 public function registerBundles()
 {
     $bundles = [
         // ...
+        new Vich\UploaderBundle\VichUploaderBundle(),
+        new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         new Presta\ImageBundle\ImageBundle(),
     ];
 }
 ```
 
+### Configure the bundle
+
+You must use the `image_widget.html.twig` form theme into `app/config.yml`.
+
+```yml
+twig:
+    form_themes:
+        - "PrestaImageBundle:form:image_widget.html.twig"
+```
+
+You must include the routing into `app/config/routing.yml`:
+
+```yml
+presta_image:
+    resource: "@PrestaImageBundle/Resources/config/routing.yml"
+
+fos_js_routing:
+     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+```
+
+See VichUploader [documentation][5] to configure the bundle.
+
 ### Install assets
 
-See Cropper [quick start section][2] to install Cropper assets. 
+See Cropper [quick start section][2] to install assets.
+
+Note that [jQuery][3] and [Bootstrap][4] are required.
+
+Don't forget to include the following assets in your page:
+
+- `/path/to/cropper/dist/cropper.min.css`
+- `/path/to/cropper/dist/cropper.min.js`
+- `@PrestaImageBundle/Resources/public/css/cropper.css`
+- `@PrestaImageBundle/Resources/public/js/cropper.js`
+
+And the following scripts:
+
+```html
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+```
+
+## Usage
+
+### Initialize cropper
+
+```javascript
+(function(w, $) {
+
+    'use strict';
+
+    $(function() {
+        $('.cropper').each(function() {
+            new Cropper($(this));
+        });
+    });
+
+})(window, jQuery);
+```
 
 ## Contributing
 
@@ -50,3 +114,6 @@ Released under the MIT License
 
 [1]: https://fengyuanchen.github.io/cropper/
 [2]: https://github.com/fengyuanchen/cropper#quick-start
+[3]: https://jquery.com/download/
+[4]: http://getbootstrap.com/getting-started/#download
+[5]: https://github.com/dustin10/VichUploaderBundle/blob/master/Resources/doc/usage.md

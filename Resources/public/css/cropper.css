@@ -1,0 +1,7 @@
+.cropper .cropper-canvas-container {
+    margin-bottom: 10px;
+}
+
+.cropper .cropper-preview > img {
+    max-width: 100%;
+}
