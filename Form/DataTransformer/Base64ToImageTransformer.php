@@ -3,6 +3,7 @@
 namespace Presta\ImageBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -15,11 +16,11 @@ class Base64ToImageTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if (!$value instanceof UploadedFile) {
-            return null;
+        if (!$value instanceof File) {
+            return ['base64' => null];
         }
 
-        return file_get_contents($value->getRealPath());
+        return ['base64' => 'data:image/png;base64,' . base64_encode(file_get_contents($value->getRealPath()))];
     }
 
     /**
@@ -27,7 +28,7 @@ class Base64ToImageTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        if (null === $value['base64']) {
+        if (!isset($value['base64']) || !$value['base64']) {
             return null;
         }
 
