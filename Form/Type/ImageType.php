@@ -99,7 +99,7 @@ class ImageType extends AbstractType
      */
     private function addAspectRatio(array &$aspectRatios, $value, $key, $checked = false)
     {
-        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $key), [], 'PrestaImageBundle');
+        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $value), [], 'PrestaImageBundle');
 
         $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
