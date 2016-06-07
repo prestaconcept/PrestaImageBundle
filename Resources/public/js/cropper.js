@@ -42,6 +42,7 @@
 
         this.$remote = {
             $btnUpload: this.$el.find('.cropper-remote button'),
+            $uploadLoader: this.$el.find('.cropper-remote .remote-loader'),
             $input: this.$el.find('.cropper-remote input[type="url"]')
         };
 
@@ -84,6 +85,9 @@
     Cropper.prototype.initRemoteEvents = function() {
         var self = this;
 
+        var $btnUpload = this.$remote.$btnUpload;
+        var $uploadLoader = this.$remote.$uploadLoader;
+
         // handle distant image upload button state
         this.$remote.$input.on('change, input', function () {
             var url = $(this).val();
@@ -93,14 +97,18 @@
 
         // start cropping process get image's base64 representation from local server to avoid cross-domain issues
         this.$remote.$btnUpload.on('click', function () {
+            $btnUpload.hide();
+            $uploadLoader.removeClass('hidden');
             $.ajax({
-                url: Routing.generate('image_to_base64'),
+                url: Routing.generate('presta_image_url_to_base64'),
                 data: {
                     url: self.$remote.$input.val()
                 },
                 method: 'post'
             }).done(function (data) {
                 self.prepareCropping(data.base64);
+                $btnUpload.show();
+                $uploadLoader.addClass('hidden')();
             });
         });
 
