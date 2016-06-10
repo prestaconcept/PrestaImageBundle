@@ -8,7 +8,7 @@
             </trans-unit>
             <trans-unit id="image_dist_placeholder">
                 <source>image_dist_placeholder</source>
-                <target>Url de l'image distante</target>
+                <target>Url de l'image</target>
             </trans-unit>
             <trans-unit id="btn_validate">
                 <source>btn_validate</source>
@@ -20,11 +20,11 @@
             </trans-unit>
             <trans-unit id="btn_import_image_local">
                 <source>btn_import_image_local</source>
-                <target>Importer une image (locale)</target>
+                <target>Image locale</target>
             </trans-unit>
             <trans-unit id="btn_import_image_remote">
                 <source>btn_import_image_remote</source>
-                <target>Importer une image (distante)</target>
+                <target>Importer</target>
             </trans-unit>
             <trans-unit id="aspect_ratio.16_9">
                 <source>aspect_ratio.16_9</source>

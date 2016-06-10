@@ -16,7 +16,7 @@ class Base64ToImageTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if (!$value instanceof File) {
+        if (!$value instanceof File || !$value->getRealPath()) {
             return ['base64' => null];
         }
 
