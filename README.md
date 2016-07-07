@@ -31,7 +31,6 @@ public function registerBundles()
     $bundles = [
         // ...
         new Vich\UploaderBundle\VichUploaderBundle(),
-        new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         new Presta\ImageBundle\ImageBundle(),
     ];
 }
@@ -52,9 +51,6 @@ You must include the routing into `app/config/routing.yml`:
 ```yml
 presta_image:
     resource: "@PrestaImageBundle/Resources/config/routing.yml"
-
-fos_js_routing:
-     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 ```
 
 See VichUploader [documentation][5] to configure the bundle.
@@ -71,13 +67,6 @@ Don't forget to include the following assets in your page:
 - `/path/to/cropper/dist/cropper.min.js`
 - `@PrestaImageBundle/Resources/public/css/cropper.css`
 - `@PrestaImageBundle/Resources/public/js/cropper.js`
-
-And the following scripts:
-
-```html
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-```
 
 ## Usage
 

@@ -1,5 +1,4 @@
 /* global FileReader */
-/* global Routing */
 (function(w, $){
 
     'use strict';
@@ -100,7 +99,7 @@
             $btnUpload.hide();
             $uploadLoader.removeClass('hidden');
             $.ajax({
-                url: Routing.generate('presta_image_url_to_base64'),
+                url: $btnUpload.data('url'),
                 data: {
                     url: self.$remote.$input.val()
                 },

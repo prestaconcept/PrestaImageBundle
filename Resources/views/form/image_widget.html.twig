@@ -22,7 +22,7 @@
                 <div class="input-group">
                     <input type="url" class="image-url-input input-sm form-control" placeholder="{{ 'image_dist_placeholder'|trans }}" />
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm btn-info btn-upload-dist" disabled="disabled">
+                        <button type="button" class="btn btn-sm btn-info btn-upload-dist" disabled="disabled" data-url="{{ path('presta_image_url_to_base64') }}">
                             <span class="fa fa-upload"></span>
                             {{ 'btn_import_image_remote'|trans }}
                         </button>
