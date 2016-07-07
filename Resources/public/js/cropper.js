@@ -107,7 +107,7 @@
             }).done(function (data) {
                 self.prepareCropping(data.base64);
                 $btnUpload.show();
-                $uploadLoader.addClass('hidden')();
+                $uploadLoader.addClass('hidden');
             });
         });
 
