@@ -170,10 +170,17 @@
      * Create canvas from cropped image and fill in the hidden input with canvas base64 data.
      */
     Cropper.prototype.crop = function() {
-        var canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
-            width: this.$container.$canvas.data('max-width'),
-            height: this.$container.$canvas.data('max-height')
-        });
+        var data = this.$container.$preview.children('img').cropper('getCropBoxData'),
+            width = this.$container.$canvas.data('max-width') < data.width
+                ? this.$container.$canvas.data('max-width')
+                : data.width,
+            height = this.$container.$canvas.data('max-height') < data.height
+                ? this.$container.$canvas.data('max-height')
+                : data.height,
+            canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
+                width: width,
+                height: height
+            });
 
         // fill canvas container with cropped image
         this.$container.$canvas.html(canvas);
