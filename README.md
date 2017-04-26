@@ -86,6 +86,29 @@ Don't forget to include the following assets in your page:
 })(window, jQuery);
 ```
 
+### Use the form type
+
+```php
+<?php
+
+use Presta\ImageBundle\Form\Type\ImageType;
+
+public function buildForm(FormBuilderInterface $builder, array $options)
+{
+    $builder
+        ->add('image', ImageType::class)
+    ;
+}
+```
+
+Available options for the `ImageType`:
+
+- `aspect_ratio` (`array`): a list of aspect ratio to apply when resizing an image
+- `max_width` (`int`): the max width to use when displaying the image preview (default: `320`)
+- `max_height` (`int`): the max height to use when displaying the image preview (default: `180`)
+- `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
+- `download_link` (`bool`): whether the end user should be able to add a remote image by URL (default: `true`)
+
 ## Contributing
 
 Pull requests are welcome.
