@@ -31,7 +31,7 @@ public function registerBundles()
     $bundles = [
         // ...
         new Vich\UploaderBundle\VichUploaderBundle(),
-        new Presta\ImageBundle\ImageBundle(),
+        new Presta\ImageBundle\PrestaImageBundle(),
     ];
 }
 ```
