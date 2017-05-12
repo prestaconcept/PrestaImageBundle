@@ -46,7 +46,7 @@ class ImageType extends AbstractType
     {
         $this->translator = $translator;
         $this->storage = $storage;
-        $this->handler    = $handler;
+        $this->handler = $handler;
     }
 
     /**
@@ -111,7 +111,7 @@ class ImageType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param array $options
      */
     protected function buildDeleteField(FormBuilderInterface $builder, array $options)
     {
@@ -126,9 +126,9 @@ class ImageType extends AbstractType
             }
 
             $form->add('delete', CheckboxType::class, [
-                'label'              => $options['delete_label'],
-                'required'           => false,
-                'mapped'             => false,
+                'label' => $options['delete_label'],
+                'required' => false,
+                'mapped' => false,
                 'translation_domain' => $options['translation_domain']
             ]);
         });
@@ -159,5 +159,4 @@ class ImageType extends AbstractType
 
         $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
-
 }
