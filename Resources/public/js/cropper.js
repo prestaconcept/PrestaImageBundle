@@ -45,6 +45,10 @@
             $input: this.$el.find('.cropper-remote input[type="url"]')
         };
 
+        this.options = $.extend(this.options, {
+            aspectRatio: this.$aspectRatio.val()
+        });
+
         return this;
     };
 
@@ -192,6 +196,10 @@
         this.$modal.modal('hide');
     };
 
-    window.Cropper = Cropper;
+    if (undefined !== module && undefined !== module.exports) {
+        module.exports = Cropper;
+    } else {
+        window.Cropper = Cropper;
+    }
 
 })(window, jQuery);

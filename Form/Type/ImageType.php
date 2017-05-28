@@ -90,6 +90,8 @@ class ImageType extends AbstractType
             ->setDefault('max_height', 180)
             ->setDefault('download_uri', null)
             ->setDefault('download_link', true)
+            ->setDefault('enable_locale', true)
+            ->setDefault('enable_remote', true)
             ->setDefault('translation_domain', 'PrestaImageBundle')
         ;
     }
@@ -102,6 +104,8 @@ class ImageType extends AbstractType
         $view->vars['aspect_ratios'] = $options['aspect_ratios'];
         $view->vars['max_width'] = $options['max_width'];
         $view->vars['max_height'] = $options['max_height'];
+        $view->vars['enable_locale'] = $options['enable_locale'];
+        $view->vars['enable_remote'] = $options['enable_remote'];
         $view->vars['object'] = $form->getParent()->getData();
 
         if ($options['download_link'] && $view->vars['object']) {
@@ -149,13 +153,13 @@ class ImageType extends AbstractType
 
     /**
      * @param array $aspectRatios
-     * @param float $value
      * @param string $key
+     * @param float $value
      * @param bool $checked
      */
-    private function addAspectRatio(array &$aspectRatios, $value, $key, $checked = false)
+    private function addAspectRatio(array &$aspectRatios, $key, $value, $checked = false)
     {
-        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $value), [], 'PrestaImageBundle');
+        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $key), [], 'PrestaImageBundle');
 
         $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
