@@ -42,7 +42,7 @@
             {% endif %}
         </div>
 
-
+        {% set show_aspect_ratios = aspect_ratios|length > 1 %}
         <div class="modal fade">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -52,19 +52,21 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="{% if show_aspect_ratios %}col-md-10{% else %}col-md-12{% endif %}">
                                 <div class="cropper-preview"></div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="btn-group-vertical pull-right" data-toggle="buttons">
-                                    {% for aspect_ratio in aspect_ratios %}
-                                        <label class="btn btn-primary{% if aspect_ratio.checked %} active{% endif %}">
-                                            <input type="radio" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
-                                            {{ aspect_ratio.label }}
-                                        </label>
-                                    {% endfor %}
+                            {% if show_aspect_ratios %}
+                                <div class="col-md-2">
+                                    <div class="btn-group-vertical pull-right" data-toggle="buttons">
+                                        {% for aspect_ratio in aspect_ratios %}
+                                            <label class="btn btn-primary{% if aspect_ratio.checked %} active{% endif %}">
+                                                <input type="radio" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
+                                                {{ aspect_ratio.label }}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="modal-footer">
