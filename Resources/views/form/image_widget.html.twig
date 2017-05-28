@@ -70,6 +70,10 @@
                                         {% endfor %}
                                     </div>
                                 </div>
+                            {% else %}
+                                {% for aspect_ratio in aspect_ratios %}
+                                    <input type="hidden" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
+                                {% endfor %}
                             {% endif %}
                         </div>
                     </div>
