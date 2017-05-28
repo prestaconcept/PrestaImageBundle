@@ -149,13 +149,13 @@ class ImageType extends AbstractType
 
     /**
      * @param array $aspectRatios
-     * @param float $value
      * @param string $key
+     * @param float $value
      * @param bool $checked
      */
-    private function addAspectRatio(array &$aspectRatios, $value, $key, $checked = false)
+    private function addAspectRatio(array &$aspectRatios, $key, $value, $checked = false)
     {
-        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $value), [], 'PrestaImageBundle');
+        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $key), [], 'PrestaImageBundle');
 
         $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
