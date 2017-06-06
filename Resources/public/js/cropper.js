@@ -196,7 +196,7 @@
         this.$modal.modal('hide');
     };
 
-    if (undefined !== module && undefined !== module.exports) {
+    if (typeof module !== 'undefined' && 'exports' in module) {
         module.exports = Cropper;
     } else {
         window.Cropper = Cropper;
