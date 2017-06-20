@@ -2,7 +2,7 @@
 
 {% block image_widget %}
 {% spaceless %}
-    <div class="cropper">
+    <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}">
         <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}">
             {% if form.vars.download_uri %}
                 <img src="{{ asset(form.vars.download_uri) }}">

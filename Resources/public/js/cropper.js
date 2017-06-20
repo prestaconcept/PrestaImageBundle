@@ -9,9 +9,7 @@
      */
     var Cropper = function($el) {
         this.$el = $el;
-        this.options = {
-            autoCropArea: 1
-        };
+        this.options = $.extend({}, $el.data('cropper-options'));
 
         this
             .initElements()

@@ -104,10 +104,17 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 Available options for the `ImageType`:
 
 - `aspect_ratio` (`array`): a list of aspect ratio to apply when resizing an image
+- `cropper_options` (`array`): a list of options supported by cropper (default: `['autoCropArea' => 1]`)
 - `max_width` (`int`): the max width to use when displaying the image preview (default: `320`)
 - `max_height` (`int`): the max height to use when displaying the image preview (default: `180`)
 - `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
 - `download_link` (`bool`): whether the end user should be able to add a remote image by URL (default: `true`)
+
+#### Notes
+
+You can find Cropper options [here](https://github.com/fengyuanchen/cropper#options).
+
+The `max_width` and `max_height` options are used to define the preview canvas dimensions from which the image is generated.
 
 ## Contributing
 

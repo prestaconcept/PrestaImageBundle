@@ -86,6 +86,7 @@ class ImageType extends AbstractType
             ->setDefault('allow_delete', true)
             ->setDefault('delete_label', 'btn_delete')
             ->setDefault('aspect_ratios', $aspectRatios)
+            ->setDefault('cropper_options', ['autoCropArea' => 1])
             ->setDefault('max_width', 320)
             ->setDefault('max_height', 180)
             ->setDefault('download_uri', null)
@@ -102,6 +103,7 @@ class ImageType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['aspect_ratios'] = $options['aspect_ratios'];
+        $view->vars['cropper_options'] = json_encode($options['cropper_options']);
         $view->vars['max_width'] = $options['max_width'];
         $view->vars['max_height'] = $options['max_height'];
         $view->vars['enable_locale'] = $options['enable_locale'];
