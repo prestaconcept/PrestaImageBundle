@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Vich\UploaderBundle\Storage\StorageInterface;
@@ -89,6 +90,12 @@ class ImageType extends AbstractType
             ->setDefault('cropper_options', ['autoCropArea' => 1])
             ->setDefault('max_width', 320)
             ->setDefault('max_height', 180)
+            ->setDefault('preview_width', function (Options $options) {
+                return $options['max_width'];
+            })
+            ->setDefault('preview_height', function (Options $options) {
+                return $options['max_height'];
+            })
             ->setDefault('download_uri', null)
             ->setDefault('download_link', true)
             ->setDefault('enable_locale', true)
@@ -106,6 +113,8 @@ class ImageType extends AbstractType
         $view->vars['cropper_options'] = json_encode($options['cropper_options']);
         $view->vars['max_width'] = $options['max_width'];
         $view->vars['max_height'] = $options['max_height'];
+        $view->vars['preview_width'] = $options['preview_width'];
+        $view->vars['preview_height'] = $options['preview_height'];
         $view->vars['enable_locale'] = $options['enable_locale'];
         $view->vars['enable_remote'] = $options['enable_remote'];
         $view->vars['object'] = $form->getParent()->getData();
