@@ -173,22 +173,32 @@
      */
     Cropper.prototype.crop = function() {
         var data = this.$container.$preview.children('img').cropper('getCropBoxData'),
-            width = this.$container.$canvas.data('max-width') < data.width
-                ? this.$container.$canvas.data('max-width')
-                : data.width,
-            height = this.$container.$canvas.data('max-height') < data.height
-                ? this.$container.$canvas.data('max-height')
-                : data.height,
-            canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
-                width: width,
-                height: height
+            image_width = Math.min(this.$el.data('max-width'), data.width),
+            image_height = Math.min(this.$el.data('max-height'), data.height),
+            preview_width = Math.min(this.$container.$canvas.data('preview-width'), data.width),
+            preview_height = Math.min(this.$container.$canvas.data('preview-height'), data.height),
+
+            // TODO: getCroppedCanvas seams to only consider one dimension when calculating the maximum size
+            // in respect to the aspect ratio and always considers width first, so height is basically ignored!
+            // To set a maximum height, no width parameter should be set.
+            // Example of current wrong behavior:
+            // source of 200x300 with resize to 150x200 results in 150x225 => WRONG (should be: 133x200)
+            // source of 200x300 with resize to 200x150 results in 200x300 => WRONG (should be: 100x150)
+            // This is an issue with cropper, not this library
+            preview_canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
+                width: preview_width,
+                height: preview_height
+            }),
+            image_canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
+                width: image_width,
+                height: image_height
             });
 
-        // fill canvas container with cropped image
-        this.$container.$canvas.html(canvas);
+        // fill canvas preview container with cropped image
+        this.$container.$canvas.html(preview_canvas);
 
         // fill input with base64 cropped image
-        this.$input.val(canvas.toDataURL());
+        this.$input.val(image_canvas.toDataURL());
 
         // hide the modal
         this.$modal.modal('hide');
