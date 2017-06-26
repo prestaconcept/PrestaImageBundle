@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="PrestaImageBundle.fr.xliff">
+        <body>
+            <trans-unit id="resize_image">
+                <source>resize_image</source>
+                <target>Crop Image</target>
+            </trans-unit>
+            <trans-unit id="image_dist_placeholder">
+                <source>image_dist_placeholder</source>
+                <target>Remote URL</target>
+            </trans-unit>
+            <trans-unit id="btn_validate">
+                <source>btn_validate</source>
+                <target>Crop</target>
+            </trans-unit>
+            <trans-unit id="btn_cancel">
+                <source>btn_cancel</source>
+                <target>Cancel</target>
+            </trans-unit>
+            <trans-unit id="btn_import_image_local">
+                <source>btn_import_image_local</source>
+                <target>local Image</target>
+            </trans-unit>
+            <trans-unit id="btn_import_image_remote">
+                <source>btn_import_image_remote</source>
+                <target>Import Remote</target>
+            </trans-unit>
+            <trans-unit id="aspect_ratio.16_9">
+                <source>aspect_ratio.16_9</source>
+                <target>16:9</target>
+            </trans-unit>
+            <trans-unit id="aspect_ratio.4_3">
+                <source>aspect_ratio.4_3</source>
+                <target>4:3</target>
+            </trans-unit>
+            <trans-unit id="aspect_ratio.1">
+                <source>aspect_ratio.1</source>
+                <target>1</target>
+            </trans-unit>
+            <trans-unit id="aspect_ratio.2_3">
+                <source>aspect_ratio.2_3</source>
+                <target>2:3</target>
+            </trans-unit>
+            <trans-unit id="aspect_ratio.nan">
+                <source>aspect_ratio.nan</source>
+                <target>Free</target>
+            </trans-unit>
+            <trans-unit id="btn_delete">
+                <source>btn_delete</source>
+                <target>Delete Image</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
