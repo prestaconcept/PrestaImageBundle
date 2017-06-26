@@ -19,7 +19,9 @@ class DefaultController extends Controller
     public function urlToBase64Action(Request $request)
     {
         $image = file_get_contents($request->request->get('url'));
-        $base64 = sprintf('data:image/png;base64,%s', base64_encode($image));
+        $imageInfo = getimagesizefromstring($image);
+        $mimeType = $imageInfo !== false ? $imageInfo['mime'] : 'image/png';
+        $base64 = sprintf('data:' . $mimeType . ';base64,%s', base64_encode($image));
 
         return new JsonResponse([
             'base64' => $base64,

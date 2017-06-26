@@ -198,7 +198,7 @@
         this.$container.$canvas.html(preview_canvas);
 
         // fill input with base64 cropped image
-        this.$input.val(image_canvas.toDataURL());
+        this.$input.val(image_canvas.toDataURL(this.$el.data('mimetype'), this.$el.data('quality')));
 
         // hide the modal
         this.$modal.modal('hide');
