@@ -20,7 +20,10 @@ class Base64ToImageTransformer implements DataTransformerInterface
             return ['base64' => null];
         }
 
-        return ['base64' => 'data:image/png;base64,' . base64_encode(file_get_contents($value->getRealPath()))];
+        $imageData = file_get_contents($value->getRealPath());
+        $imageInfo = getimagesizefromstring($imageData);
+        $mimeType = $imageInfo !== false ? $imageInfo['mime'] : 'image/png';
+        return ['base64' => 'data:' . $mimeType . ';base64,' . base64_encode($imageData)];
     }
 
     /**
@@ -32,7 +35,8 @@ class Base64ToImageTransformer implements DataTransformerInterface
             return null;
         }
 
-        $base64 = str_replace('data:image/png;base64,', '', $value['base64']);
+
+        $base64 = preg_replace('/data:.*;base64,/', '', $value['base64']);
 
         $filePath = tempnam(sys_get_temp_dir(), 'UploadedFile');
         $file = fopen($filePath, 'w');
@@ -43,6 +47,8 @@ class Base64ToImageTransformer implements DataTransformerInterface
         fclose($file);
 
         // Force "test" parameters to true to bypass http file validation (as the file isn't a "real" uploaded file)
+        // TODO: Should we get and define the mimeType here?
+        // TODO: Should we maybe also send and set the originalFilename?
         return new UploadedFile($path, uniqid(), null, null, null, true);
     }
 }

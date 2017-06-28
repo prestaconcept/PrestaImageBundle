@@ -2,7 +2,7 @@
 
 {% block image_widget %}
 {% spaceless %}
-    <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}">
+    <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}" data-mimetype="{{ upload_mimetype }}" data-quality="{{ upload_quality }}">
         <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
             {% if form.vars.download_uri %}
                 <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}px; max-height: {{ preview_height }}px;">

@@ -111,13 +111,19 @@ Available options for the `ImageType`:
 - `preview_height` (`int`): the max height to use when displaying the image preview (default: `180`)
 - `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
 - `download_link` (`bool`): whether the end user should be able to add a remote image by URL (default: `true`)
-
+- `upload_mimetype` (`string`): format of the image to be uploaded (default: `image/png`)  
+  (Note: If choosen mimetype is not supported by browser it will silently fall back to `image/png`)
+- `upload_quality` (`float`): quality (0..1) of uploaded image for lossy imageformats (eg. `image/jpeg`) (default: `0.92`)   
 #### Notes
 
 You can find Cropper options [here](https://github.com/fengyuanchen/cropper#options).
 
 The `max_width` and `max_height` options are used to define maximum size the cropped uploaded image will be.
 Bigger images (after cropping) are scaled down.
+
+**Security Note:** NEVER rely on this size constraints and the format settings as 
+they can be easily manipulated client side. ALWAYS validate the image-data, -size, -format 
+at server side! 
 
 ## Contributing
 

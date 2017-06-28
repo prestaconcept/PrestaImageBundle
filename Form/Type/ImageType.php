@@ -101,6 +101,8 @@ class ImageType extends AbstractType
             ->setDefault('enable_locale', true)
             ->setDefault('enable_remote', true)
             ->setDefault('translation_domain', 'PrestaImageBundle')
+            ->setDefault('upload_mimetype', 'image/png')
+            ->setDefault('upload_quality', 0.92);  // default value: https://developer.mozilla.org/de/docs/Web/API/HTMLCanvasElement/toDataURL
         ;
     }
 
@@ -117,6 +119,8 @@ class ImageType extends AbstractType
         $view->vars['preview_height'] = $options['preview_height'];
         $view->vars['enable_locale'] = $options['enable_locale'];
         $view->vars['enable_remote'] = $options['enable_remote'];
+        $view->vars['upload_mimetype'] = $options['upload_mimetype'];
+        $view->vars['upload_quality'] = $options['upload_quality'];
         $view->vars['object'] = $form->getParent()->getData();
 
         if ($options['download_link'] && $view->vars['object']) {
