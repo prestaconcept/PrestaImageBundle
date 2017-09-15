@@ -98,6 +98,8 @@ class ImageType extends AbstractType
             })
             ->setDefault('upload_button_class', 'btn btn-sm btn-info')
             ->setDefault('upload_button_icon', 'fa fa-upload')
+            ->setDefault('cancel_button_class', 'btn btn-default')
+            ->setDefault('save_button_class', 'btn btn-primary')
             ->setDefault('download_uri', null)
             ->setDefault('download_link', true)
             ->setDefault('enable_locale', true)
@@ -121,6 +123,8 @@ class ImageType extends AbstractType
         $view->vars['preview_height'] = $options['preview_height'];
         $view->vars['upload_button_class'] = $options['upload_button_class'];
         $view->vars['upload_button_icon'] = $options['upload_button_icon'];
+        $view->vars['cancel_button_class'] = $options['cancel_button_class'];
+        $view->vars['save_button_class'] = $options['save_button_class'];
         $view->vars['enable_locale'] = $options['enable_locale'];
         $view->vars['enable_remote'] = $options['enable_remote'];
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
