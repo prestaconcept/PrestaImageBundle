@@ -160,6 +160,15 @@ class ImageType extends AbstractType
             ]);
         });
 
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+            $delete = $data['delete'];
+            if ($delete) {
+                $data['base64'] = null;
+                $event->setData($data);
+            }
+        });
+
         // delete file if needed
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
