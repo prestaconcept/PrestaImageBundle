@@ -46,9 +46,8 @@ class Base64ToImageTransformer implements DataTransformerInterface
         $path = $meta_data['uri'];
         fclose($file);
         $mimeType = mime_content_type($path);
-        // Force "test" parameters to true to bypass http file validation (as the file isn't a "real" uploaded file)
-        // TODO: Should we get and define the mimeType here?
-        // TODO: Should we maybe also send and set the originalFilename?
-        return new UploadedFile($path, uniqid(), $mimeType, null, null, true);
+        $extension = str_replace('image/', '', $mimeType);
+
+        return new UploadedFile($path, uniqid() . '.' . $extension, $mimeType, null, null, true);
     }
 }
