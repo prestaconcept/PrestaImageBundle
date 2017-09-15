@@ -119,6 +119,8 @@ class ImageType extends AbstractType
         $view->vars['max_height'] = $options['max_height'];
         $view->vars['preview_width'] = $options['preview_width'];
         $view->vars['preview_height'] = $options['preview_height'];
+        $view->vars['upload_button_class'] = $options['upload_button_class'];
+        $view->vars['upload_button_icon'] = $options['upload_button_icon'];
         $view->vars['enable_locale'] = $options['enable_locale'];
         $view->vars['enable_remote'] = $options['enable_remote'];
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
