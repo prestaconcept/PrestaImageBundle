@@ -8,8 +8,8 @@
             {% if enable_locale %}
                 <div class="col-md-4 cropper-local">
                     <input type="file" name="file" class="hidden" />
-                    <button type="button" class="{{ upload_button_class|default('btn btn-sm btn-info') }}">
-                        <span class="{{ upload_button_icon|default('fa fa-upload') }}"></span>
+                    <button type="button" class="{{ upload_button_class }}">
+                        <span class="{{ upload_button_icon }}"></span>
                         {{ 'btn_import_image_local'|trans }}
                     </button>
                 </div>
