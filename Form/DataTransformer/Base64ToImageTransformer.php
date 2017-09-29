@@ -34,10 +34,9 @@ class Base64ToImageTransformer implements DataTransformerInterface
         if (!isset($value['base64']) || !$value['base64']) {
             return null;
         }
-
-
-        $base64 = preg_replace('/data:.*;base64,/', '', $value['base64']);
-
+        
+        $base64 = preg_replace('/data\:.*?base64\,/', '', $value['base64']);
+        
         $filePath = tempnam(sys_get_temp_dir(), 'UploadedFile');
         $file = fopen($filePath, 'w');
         stream_filter_append($file, 'convert.base64-decode');
