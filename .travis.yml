@@ -19,7 +19,7 @@ install:
   - composer require symfony/symfony:${SYMFONY_VERSION}
 
 script:
-  - phpcs --ignore=/vendor/* --extensions=php --encoding=utf-8 --standard=PSR2 -np .
+  - phpcs --ignore=vendor --extensions=php --encoding=utf-8 --standard=PSR2 -np .
 
 notifications:
   email:
