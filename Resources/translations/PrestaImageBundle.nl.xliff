@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="PrestaImageBundle.nl.xliff">
+    <file source-language="nl" datatype="plaintext" original="PrestaImageBundle.fr.xliff">
         <body>
             <trans-unit id="resize_image">
                 <source>resize_image</source>
-                <target>Crop Image</target>
+                <target>Kies gewenst formaat</target>
             </trans-unit>
             <trans-unit id="image_dist_placeholder">
                 <source>image_dist_placeholder</source>
-                <target>Remote URL</target>
+                <target>Externe URL</target>
             </trans-unit>
             <trans-unit id="btn_validate">
                 <source>btn_validate</source>
-                <target>Crop</target>
+                <target>Opslaan</target>
             </trans-unit>
             <trans-unit id="btn_cancel">
                 <source>btn_cancel</source>
-                <target>Cancel</target>
+                <target>Annuleren</target>
             </trans-unit>
             <trans-unit id="btn_import_image_local">
                 <source>btn_import_image_local</source>
-                <target>local Image</target>
+                <target>Lokale afbeelding</target>
             </trans-unit>
             <trans-unit id="btn_import_image_remote">
                 <source>btn_import_image_remote</source>
-                <target>Import Remote</target>
+                <target>Importeer extern</target>
             </trans-unit>
             <trans-unit id="aspect_ratio.16_9">
                 <source>aspect_ratio.16_9</source>
@@ -44,11 +44,11 @@
             </trans-unit>
             <trans-unit id="aspect_ratio.nan">
                 <source>aspect_ratio.nan</source>
-                <target>Free</target>
+                <target>Vrij</target>
             </trans-unit>
             <trans-unit id="btn_delete">
                 <source>btn_delete</source>
-                <target>Delete Image</target>
+                <target>Verwijderen</target>
             </trans-unit>
         </body>
     </file>
