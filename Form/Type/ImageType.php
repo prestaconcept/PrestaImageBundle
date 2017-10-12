@@ -96,6 +96,10 @@ class ImageType extends AbstractType
             ->setDefault('preview_height', function (Options $options) {
                 return $options['max_height'];
             })
+            ->setDefault('upload_button_class', 'btn btn-sm btn-info')
+            ->setDefault('upload_button_icon', 'fa fa-upload')
+            ->setDefault('cancel_button_class', 'btn btn-default')
+            ->setDefault('save_button_class', 'btn btn-primary')
             ->setDefault('download_uri', null)
             ->setDefault('download_link', true)
             ->setDefault('enable_locale', true)
@@ -117,6 +121,10 @@ class ImageType extends AbstractType
         $view->vars['max_height'] = $options['max_height'];
         $view->vars['preview_width'] = $options['preview_width'];
         $view->vars['preview_height'] = $options['preview_height'];
+        $view->vars['upload_button_class'] = $options['upload_button_class'];
+        $view->vars['upload_button_icon'] = $options['upload_button_icon'];
+        $view->vars['cancel_button_class'] = $options['cancel_button_class'];
+        $view->vars['save_button_class'] = $options['save_button_class'];
         $view->vars['enable_locale'] = $options['enable_locale'];
         $view->vars['enable_remote'] = $options['enable_remote'];
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
@@ -150,6 +158,15 @@ class ImageType extends AbstractType
                 'mapped' => false,
                 'translation_domain' => $options['translation_domain']
             ]);
+        });
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+            $delete = isset($data['delete']) ? $data['delete'] : false;
+            if ($delete) {
+                $data['base64'] = null;
+                $event->setData($data);
+            }
         });
 
         // delete file if needed

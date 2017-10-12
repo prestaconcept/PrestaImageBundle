@@ -3,19 +3,13 @@
 {% block image_widget %}
 {% spaceless %}
     <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}" data-mimetype="{{ upload_mimetype }}" data-quality="{{ upload_quality }}">
-        <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
-            {% if form.vars.download_uri %}
-                <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}px; max-height: {{ preview_height }}px;">
-            {% endif %}
-        </div>
-        {{ form_row(form.base64) }}
-
+       
         <div class="row">
             {% if enable_locale %}
                 <div class="col-md-4 cropper-local">
                     <input type="file" name="file" class="hidden" />
-                    <button type="button" class="btn btn-sm btn-info">
-                        <span class="fa fa-upload"></span>
+                    <button type="button" class="{{ upload_button_class }}">
+                        <span class="{{ upload_button_icon }}"></span>
                         {{ 'btn_import_image_local'|trans }}
                     </button>
                 </div>
@@ -45,6 +39,13 @@
                 </div>
             {% endif %}
         </div>
+        
+        <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
+            {% if form.vars.download_uri is defined %}
+                <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}px; max-height: {{ preview_height }}px;">
+            {% endif %}
+        </div>
+        {{ form_row(form.base64) }}
 
         {% set show_aspect_ratios = aspect_ratios|length > 1 %}
         <div class="modal fade">
@@ -78,8 +79,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'btn_cancel'|trans }}</button>
-                        <button type="button" class="btn btn-primary" data-method="getCroppedCanvas">{{ 'btn_validate'|trans }}</button>
+                        <button type="button" class="{{ cancel_button_class }}" data-dismiss="modal">{{ 'btn_cancel'|trans }}</button>
+                        <button type="button" class="{{ save_button_class }}" data-method="getCroppedCanvas">{{ 'btn_validate'|trans }}</button>
                     </div>
                 </div>
             </div>
