@@ -136,7 +136,7 @@ Thanks to
 
 *This project is supported by [PrestaConcept](http://www.prestaconcept.net)*
 
-**Lead Developer** : [@J-Ben87](https://github.com/J-Ben87) 
+**Lead Developer** : [@J-Ben87](https://github.com/J-Ben87)
 
 Released under the MIT License
 
