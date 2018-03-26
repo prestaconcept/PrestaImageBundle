@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "symfony/form": "~2.8|~3.0",
+        "symfony/form": "~2.8|~3.0|~4.0",
         "vich/uploader-bundle": "^1.1"
     },
     "autoload": {
