@@ -57,6 +57,7 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('base64', HiddenType::class, [
+                'required' => $options['required'],
                 'attr' => [
                     'class' => 'cropper-base64',
                 ],
@@ -195,5 +196,4 @@ class ImageType extends AbstractType
 
         $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
-}
 }
