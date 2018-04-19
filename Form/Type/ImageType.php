@@ -65,7 +65,7 @@ class ImageType extends AbstractType
 
         $builder->addModelTransformer(new Base64ToImageTransformer);
 
-        if ($options['allow_delete']) {
+        if ($options['allow_delete'] && ! $options['required']) {
             $this->buildDeleteField($builder, $options);
         }
     }
@@ -195,4 +195,5 @@ class ImageType extends AbstractType
 
         $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
     }
+}
 }
