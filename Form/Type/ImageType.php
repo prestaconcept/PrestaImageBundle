@@ -57,6 +57,7 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('base64', HiddenType::class, [
+                'required' => $options['required'],
                 'attr' => [
                     'class' => 'cropper-base64',
                 ],
@@ -65,7 +66,7 @@ class ImageType extends AbstractType
 
         $builder->addModelTransformer(new Base64ToImageTransformer);
 
-        if ($options['allow_delete']) {
+        if ($options['allow_delete'] && ! $options['required']) {
             $this->buildDeleteField($builder, $options);
         }
     }
