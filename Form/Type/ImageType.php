@@ -91,8 +91,12 @@ class ImageType extends AbstractType
             ->setDefault('cropper_options', ['autoCropArea' => 1])
             ->setDefault('max_width', 320)
             ->setDefault('max_height', 180)
-            ->setDefault('preview_width', '320px')
-            ->setDefault('preview_height', '180px')
+            ->setDefault('preview_width', function (Options $options) {
+                return sprintf('%dpx', $options['max_width']);
+            })
+            ->setDefault('preview_height', function (Options $options) {
+                return sprintf('%dpx', $options['max_height']);
+            })
             ->setDefault('upload_button_class', 'btn btn-sm btn-info')
             ->setDefault('upload_button_icon', 'fa fa-upload')
             ->setDefault('cancel_button_class', 'btn btn-default')
