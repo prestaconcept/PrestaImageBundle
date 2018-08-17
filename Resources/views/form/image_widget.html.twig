@@ -42,7 +42,7 @@
         
         <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
             {% if form.vars.download_uri is defined and form.vars.download_uri %}
-                <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}px; max-height: {{ preview_height }}px;">
+                <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}; max-height: {{ preview_height }};">
             {% endif %}
         </div>
         {{ form_row(form.base64) }}

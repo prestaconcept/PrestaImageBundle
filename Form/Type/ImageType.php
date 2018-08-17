@@ -92,10 +92,10 @@ class ImageType extends AbstractType
             ->setDefault('max_width', 320)
             ->setDefault('max_height', 180)
             ->setDefault('preview_width', function (Options $options) {
-                return $options['max_width'];
+                return sprintf('%dpx', $options['max_width']);
             })
             ->setDefault('preview_height', function (Options $options) {
-                return $options['max_height'];
+                return sprintf('%dpx', $options['max_height']);
             })
             ->setDefault('upload_button_class', 'btn btn-sm btn-info')
             ->setDefault('upload_button_icon', 'fa fa-upload')
