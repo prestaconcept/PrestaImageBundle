@@ -107,7 +107,8 @@ class ImageType extends AbstractType
             ->setDefault('enable_remote', true)
             ->setDefault('translation_domain', 'PrestaImageBundle')
             ->setDefault('upload_mimetype', 'image/png')
-            ->setDefault('upload_quality', 0.92);  // default value: https://developer.mozilla.org/de/docs/Web/API/HTMLCanvasElement/toDataURL
+            ->setDefault('upload_quality', 0.92)  // default value: https://developer.mozilla.org/de/docs/Web/API/HTMLCanvasElement/toDataURL
+            ->setDefault('error_bubbling', false)
         ;
     }
 
