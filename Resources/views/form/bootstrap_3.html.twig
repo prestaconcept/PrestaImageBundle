@@ -1,0 +1,90 @@
+{% trans_default_domain 'PrestaImageBundle' %}
+
+{% block image_widget %}
+{% spaceless %}
+    <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}" data-mimetype="{{ upload_mimetype }}" data-quality="{{ upload_quality }}">
+
+        <div class="row">
+            {% if enable_locale %}
+                <div class="col-md-4 cropper-local">
+                    <input type="file" name="file" class="hidden" />
+                    <button type="button" class="{{ upload_button_class }}">
+                        <span class="{{ upload_button_icon }}"></span>
+                        {{ 'btn_import_image_local'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+            {% if enable_remote %}
+                <div class="col-md-8 cropper-remote">
+                    <div class="input-group">
+                        <input type="url" class="image-url-input input-sm form-control" placeholder="{{ 'image_dist_placeholder'|trans }}" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary btn-upload-dist" disabled="disabled" data-url="{{ path('presta_image_url_to_base64') }}">
+                                <span class="fa fa-upload"></span>
+                                {{ 'btn_import_image_remote'|trans }}
+                            </button>
+                        </span>
+                        <div class="remote-loader spinner hidden">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if form.delete is defined %}
+                <div class="col-md-12">
+                    {{ form_row(form.delete) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
+            {% if form.vars.download_uri is defined and form.vars.download_uri %}
+                <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}; max-height: {{ preview_height }};">
+            {% endif %}
+        </div>
+        {{ form_row(form.base64) }}
+
+        {% set show_aspect_ratios = aspect_ratios|length > 1 %}
+        <div class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">{{ 'resize_image'|trans }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="{% if show_aspect_ratios %}col-md-10{% else %}col-md-12{% endif %}">
+                                <div class="cropper-preview"></div>
+                            </div>
+                            {% if show_aspect_ratios %}
+                                <div class="col-md-2">
+                                    <div class="btn-group-vertical pull-right" data-toggle="buttons">
+                                        {% for aspect_ratio in aspect_ratios %}
+                                            <label class="btn btn-primary{% if aspect_ratio.checked %} active{% endif %}">
+                                                <input type="radio" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
+                                                {{ aspect_ratio.label }}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% for aspect_ratio in aspect_ratios %}
+                                    <input type="hidden" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="{{ cancel_button_class }}" data-dismiss="modal">{{ 'btn_cancel'|trans }}</button>
+                        <button type="button" class="{{ save_button_class }}" data-method="getCroppedCanvas">{{ 'btn_validate'|trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock %}
