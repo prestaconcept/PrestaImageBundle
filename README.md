@@ -16,7 +16,7 @@ It uses [Cropper][1] jQuery plugin.
 ### Require the bundle as a Composer dependency
 
 ```bash
-php composer.phar require presta/image-bundle
+composer require presta/image-bundle
 ```
 
 ### Enable the bundles in the kernel
@@ -38,13 +38,15 @@ public function registerBundles()
 
 ### Configure the bundle
 
-You must use the `image_widget.html.twig` form theme into `app/config.yml`.
+You must use the `bootstrap_4.html.twig` form theme into `app/config.yml`.
 
 ```yml
 twig:
     form_themes:
-        - "PrestaImageBundle:form:image_widget.html.twig"
+        - "@PrestaImage/form/bootstrap_4.html.twig"
 ```
+
+> Note: you can also use the `bootstrap_3.html.twig` form theme instead.
 
 You must include the routing into `app/config/routing.yml`:
 
@@ -53,13 +55,13 @@ presta_image:
     resource: "@PrestaImageBundle/Resources/config/routing.yml"
 ```
 
-See VichUploader [documentation][5] to configure the bundle.
+See VichUploader [documentation][2] to configure the bundle.
 
 ### Install assets
 
-See Cropper [quick start section][2] to install assets.
+See Cropper [quick start section][3] to install assets.
 
-Note that [jQuery][3] and [Bootstrap][4] are required.
+Note that [jQuery][4] and [Bootstrap][5] are required.
 
 Don't forget to include the following assets in your page:
 
@@ -67,6 +69,10 @@ Don't forget to include the following assets in your page:
 - `/path/to/cropper/dist/cropper.min.js`
 - `@PrestaImageBundle/Resources/public/css/cropper.css`
 - `@PrestaImageBundle/Resources/public/js/cropper.js`
+
+### How to: implementation examples
+
+- [Webpack Encore][6]
 
 ## Usage
 
@@ -103,16 +109,22 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
 Available options for the `ImageType`:
 
-- `aspect_ratio` (`array`): a list of aspect ratio to apply when resizing an image
+- `aspect_ratios` (`array`): a list of aspect ratio to apply when resizing an image
 - `cropper_options` (`array`): a list of options supported by cropper (default: `['autoCropArea' => 1]`)
 - `max_width` (`int`): the max width of the cropped image send to server (default: `320`)
 - `max_height` (`int`): the max height of the cropped image send to server (default: `180`)
-- `preview_width` (`string`): the max width to use when displaying the image preview - can be in px, % or other css value (default: `320px`)
-- `preview_height` (`string`): the max height to use when displaying the image preview - can be in px, % or other css value (default: `180px`)
+- `preview_width` (`string`): the max width to use when displaying the image preview - can be in px, % or other css value (default: `'320px'`)
+- `preview_height` (`string`): the max height to use when displaying the image preview - can be in px, % or other css value (default: `'180px'`)
+- `upload_button_class` (`string`): class of the button (default: `'btn btn-sm btn-primary'`)
+- `upload_button_icon` (`string`): class of the button (default: `'fa fa-upload'`)
+- `cancel_button_class` (`string`): class of the button (default: `'btn btn-default'`)
+- `save_button_class` (`string`): class of the button (default: `'btn btn-primary'`)
 - `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
 - `download_link` (`bool`): whether the end user should be able to add a remote image by URL (default: `true`)
+- `enable_locale` (`bool`): whether to enable the locale upload (default: `true`)
+- `enable_remote` (`bool`): whether to enable the remote upload (default: `true`)
 - `upload_mimetype` (`string`): format of the image to be uploaded (default: `image/png`)  
-  (Note: If choosen mimetype is not supported by browser it will silently fall back to `image/png`)
+  (Note: If the chosen mimetype is not supported by the browser, it will silently fall back to `image/png`)
 - `upload_quality` (`float`): quality (0..1) of uploaded image for lossy imageformats (eg. `image/jpeg`) (default: `0.92`)   
 #### Notes
 
@@ -141,7 +153,8 @@ Thanks to
 Released under the MIT License
 
 [1]: https://fengyuanchen.github.io/cropper/
-[2]: https://github.com/fengyuanchen/cropper#quick-start
-[3]: https://jquery.com/download/
-[4]: http://getbootstrap.com/getting-started/#download
-[5]: https://github.com/dustin10/VichUploaderBundle/blob/master/Resources/doc/usage.md
+[2]: https://github.com/dustin10/VichUploaderBundle/blob/master/Resources/doc/usage.md
+[3]: https://github.com/fengyuanchen/cropper#quick-start
+[4]: https://jquery.com/download/
+[5]: http://getbootstrap.com/getting-started/#download
+[6]: https://github.com/presta/ImageBundle/blob/master/Resources/doc/webpack.md
