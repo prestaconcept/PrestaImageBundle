@@ -99,7 +99,7 @@
         // start cropping process get image's base64 representation from local server to avoid cross-domain issues
         this.$remote.$btnUpload.on('click', function () {
             $btnUpload.hide();
-            $uploadLoader.removeClass('hidden');
+            $uploadLoader.removeClass('hidden d-none');
             $.ajax({
                 url: $btnUpload.data('url'),
                 data: {
@@ -109,7 +109,7 @@
             }).done(function (data) {
                 self.prepareCropping(data.base64);
                 $btnUpload.show();
-                $uploadLoader.addClass('hidden');
+                $uploadLoader.addClass('hidden d-none');
             });
         });
 

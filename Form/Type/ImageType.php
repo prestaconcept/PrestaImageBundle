@@ -97,7 +97,7 @@ class ImageType extends AbstractType
             ->setDefault('preview_height', function (Options $options) {
                 return sprintf('%dpx', $options['max_height']);
             })
-            ->setDefault('upload_button_class', 'btn btn-sm btn-info')
+            ->setDefault('upload_button_class', 'btn btn-sm btn-primary')
             ->setDefault('upload_button_icon', 'fa fa-upload')
             ->setDefault('cancel_button_class', 'btn btn-default')
             ->setDefault('save_button_class', 'btn btn-primary')
