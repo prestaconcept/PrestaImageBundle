@@ -35,8 +35,8 @@ class Base64ToImageTransformer implements DataTransformerInterface
             return null;
         }
 
-        $prefixLenght = strpos($value['base64'], 'base64,') + 7;
-        $base64 = substr($value['base64'], $prefixLenght);
+        $prefixLength = strpos($value['base64'], 'base64,') + 7;
+        $base64 = substr($value['base64'], $prefixLength);
 
         $filePath = tempnam(sys_get_temp_dir(), 'UploadedFile');
         $file = fopen($filePath, 'w');
