@@ -105,6 +105,7 @@ class ImageType extends AbstractType
             ->setDefault('download_link', true)
             ->setDefault('enable_locale', true)
             ->setDefault('enable_remote', true)
+            ->setDefault('enable_rotation', false)
             ->setDefault('translation_domain', 'PrestaImageBundle')
             ->setDefault('upload_mimetype', 'image/png')
             ->setDefault('upload_quality', 0.92)  // default value: https://developer.mozilla.org/de/docs/Web/API/HTMLCanvasElement/toDataURL
@@ -129,6 +130,7 @@ class ImageType extends AbstractType
         $view->vars['save_button_class'] = $options['save_button_class'];
         $view->vars['enable_locale'] = $options['enable_locale'];
         $view->vars['enable_remote'] = $options['enable_remote'];
+        $view->vars['enable_rotation'] = $options['enable_rotation'];
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
         $view->vars['object'] = $form->getParent()->getData();

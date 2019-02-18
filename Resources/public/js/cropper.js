@@ -25,6 +25,7 @@
     Cropper.prototype.initElements = function() {
         this.$modal = this.$el.find('.modal');
         this.$aspectRatio = this.$modal.find('input[name="cropperAspectRatio"]');
+        this.$rotator = this.$modal.find('.rotate');
         this.$input = this.$el.find('input.cropper-base64');
 
         this.$container = {
@@ -128,8 +129,15 @@
         });
 
         // handle "aspectRatio" switch
-        self.$aspectRatio.on('change', function() {
+        this.$aspectRatio.on('change', function() {
             self.$container.$preview.children('img').cropper('setAspectRatio', $(this).val());
+        });
+
+        this.$rotator.on('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          self.$container.$preview.children('img').cropper('rotate', $(this).data('rotate'));
         });
 
         return this;
