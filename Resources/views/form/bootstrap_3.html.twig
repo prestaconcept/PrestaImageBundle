@@ -77,6 +77,14 @@
                                 {% endfor %}
                             {% endif %}
                         </div>
+                        {% if enable_rotation %}
+                            <div class="row">
+                                <div class="toolbar {% if show_aspect_ratios %}col-md-10{% else %}col-md-12{% endif %}">
+                                    <button class="btn btn-default rotate" data-rotate="90"><i class="glyphicon glyphicon-repeat"></i></button>
+                                    <button class="btn btn-default rotate anti-rotate" data-rotate="-90"><i class="glyphicon glyphicon-repeat"></i></button>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="{{ cancel_button_class }}" data-dismiss="modal">{{ 'btn_cancel'|trans }}</button>
