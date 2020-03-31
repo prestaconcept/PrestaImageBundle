@@ -48,6 +48,6 @@ class Base64ToImageTransformer implements DataTransformerInterface
         $mimeType = mime_content_type($path);
         $extension = str_replace('image/', '', $mimeType);
 
-        return new UploadedFile($path, uniqid() . '.' . $extension, $mimeType, null, null, true);
+        return new UploadedFile($path, uniqid() . '.' . $extension, $mimeType, null, true);
     }
 }
