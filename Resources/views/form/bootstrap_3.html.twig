@@ -1,7 +1,7 @@
 {% trans_default_domain 'PrestaImageBundle' %}
 
 {% block image_widget %}
-{% apply spaceless %}
+{% spaceless %}
     <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}" data-mimetype="{{ upload_mimetype }}" data-quality="{{ upload_quality }}">
 
         <div class="row">
@@ -94,5 +94,5 @@
             </div>
         </div>
     </div>
-{% endapply %}
+{% endspaceless %}
 {% endblock %}
