@@ -1,0 +1,13 @@
+aspect_ratio:
+  16:9: '16:9'
+  4:3: '4:3'
+  1: '1'
+  2:3: '2:3'
+  nan: 'Libre'
+btn_cancel: 'Annuler'
+btn_delete: 'Supprimer l''image'
+btn_import_image_local: 'Image locale'
+btn_import_image_remote: 'Importer'
+btn_validate: 'Valider'
+image_dist_placeholder: 'Url de l''image'
+resize_image: 'Redimensionner l''image'

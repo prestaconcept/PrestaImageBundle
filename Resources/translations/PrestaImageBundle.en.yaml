@@ -1,0 +1,13 @@
+aspect_ratio:
+  16:9: '16:9'
+  4:3: '4:3'
+  1: '1'
+  2:3: '2:3'
+  nan: 'Free'
+btn_cancel: 'Cancel'
+btn_delete: 'Delete image'
+btn_import_image_local: 'Local image'
+btn_import_image_remote: 'Import remote'
+btn_validate: 'Crop'
+image_dist_placeholder: 'Remote URL'
+resize_image: 'Crop image'

@@ -66,7 +66,7 @@
                                         {% for aspect_ratio in aspect_ratios %}
                                             <label class="btn btn-primary mb-0{% if aspect_ratio.checked %} active{% endif %}">
                                                 <input type="radio" name="cropperAspectRatio" class="d-none" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
-                                                {{ aspect_ratio.label }}
+                                                {{ aspect_ratio.label|trans }}
                                             </label>
                                         {% endfor %}
                                     </div>

@@ -1,0 +1,13 @@
+aspect_ratio:
+  16:9: '16:9'
+  4:3: '4:3'
+  1: '1'
+  2:3: '2:3'
+  nan: 'Frei'
+btn_cancel: 'Abbrechen'
+btn_delete: 'Bild löschen'
+btn_import_image_local: 'Bild laden'
+btn_import_image_remote: 'Importieren'
+btn_validate: 'Beschneiden'
+image_dist_placeholder: 'Bild-URL'
+resize_image: 'Bild beschneiden'

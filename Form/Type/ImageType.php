@@ -12,48 +12,23 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-/**
- * @author Benoit Jouhaud <bjouhaud@prestaconcept.net>
- */
 class ImageType extends AbstractType
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var StorageInterface
-     */
     private $storage;
+    private $handler;
 
-    /**
-     * @var UploadHandler
-     */
-    protected $handler;
-
-    /**
-     * @param TranslatorInterface $translator
-     * @param StorageInterface $storage
-     * @param UploadHandler $handler
-     */
-    public function __construct(TranslatorInterface $translator, StorageInterface $storage, UploadHandler $handler)
+    public function __construct(StorageInterface $storage, UploadHandler $handler)
     {
-        $this->translator = $translator;
         $this->storage = $storage;
         $this->handler = $handler;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('base64', HiddenType::class, [
@@ -64,25 +39,22 @@ class ImageType extends AbstractType
             ])
         ;
 
-        $builder->addModelTransformer(new Base64ToImageTransformer);
+        $builder->addModelTransformer(new Base64ToImageTransformer());
 
-        if ($options['allow_delete'] && ! $options['required']) {
+        if ($options['allow_delete'] && !$options['required']) {
             $this->buildDeleteField($builder, $options);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $aspectRatios = [];
 
-        $this->addAspectRatio($aspectRatios, '16_9', 1.78);
-        $this->addAspectRatio($aspectRatios, '4_3', 1.33);
-        $this->addAspectRatio($aspectRatios, '1', 1);
-        $this->addAspectRatio($aspectRatios, '2_3', 0.66);
-        $this->addAspectRatio($aspectRatios, 'nan', null, true);
+        $this->setAspectRatio($aspectRatios, '16:9', 1.78);
+        $this->setAspectRatio($aspectRatios, '4:3', 1.33);
+        $this->setAspectRatio($aspectRatios, '1', 1);
+        $this->setAspectRatio($aspectRatios, '2:3', 0.66);
+        $this->setAspectRatio($aspectRatios, 'nan', null, true);
 
         $resolver
             ->setDefault('allow_delete', true)
@@ -113,10 +85,7 @@ class ImageType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['aspect_ratios'] = $options['aspect_ratios'];
         $view->vars['cropper_options'] = json_encode($options['cropper_options']);
@@ -140,11 +109,7 @@ class ImageType extends AbstractType
         }
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    protected function buildDeleteField(FormBuilderInterface $builder, array $options)
+    private function buildDeleteField(FormBuilderInterface $builder, array $options): void
     {
         // add delete only if there is a file
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
@@ -187,16 +152,8 @@ class ImageType extends AbstractType
         });
     }
 
-    /**
-     * @param array $aspectRatios
-     * @param string $key
-     * @param float $value
-     * @param bool $checked
-     */
-    private function addAspectRatio(array &$aspectRatios, $key, $value, $checked = false)
+    private function setAspectRatio(array &$aspectRatios, string $key, ?float $value, bool $checked = false): void
     {
-        $label = $this->translator->trans(sprintf('aspect_ratio.%s', $key), [], 'PrestaImageBundle');
-
-        $aspectRatios[$key] = new AspectRatio($value, $label, $checked);
+        $aspectRatios[$key] = new AspectRatio($value, "aspect_ratio.$key", $checked);
     }
 }
