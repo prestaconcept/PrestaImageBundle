@@ -2,58 +2,30 @@
 
 namespace Presta\ImageBundle\Model;
 
-/**
- * @author Benoit Jouhaud <bjouhaud@prestaconcept.net>
- */
 class AspectRatio
 {
-    /**
-     * @var float
-     */
     private $value;
-
-    /**
-     * @var string
-     */
     private $label;
+    private $checked;
 
-    /**
-     * @var bool
-     */
-    private $checked = false;
-
-    /**
-     * @param float $value
-     * @param string $label
-     * @param bool $checked
-     */
-    public function __construct($value, $label, $checked = false)
+    public function __construct(?float $value, string $label, bool $checked = false)
     {
         $this->value = $value;
         $this->label = $label;
         $this->checked = $checked;
     }
 
-    /**
-     * @return float
-     */
-    public function getValue()
+    public function getValue(): ?float
     {
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return bool
-     */
-    public function isChecked()
+    public function isChecked(): bool
     {
         return $this->checked;
     }

@@ -1,0 +1,6 @@
+presta_image_url_to_base64:
+    path: '/url_to_base64'
+    controller: 'Presta\ImageBundle\Controller\UrlToBase64Controller'
+    methods: ['POST']
+    options:
+        expose: true

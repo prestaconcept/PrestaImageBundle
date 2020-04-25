@@ -19,23 +19,6 @@ It uses [Cropper][1] jQuery plugin.
 composer require presta/image-bundle
 ```
 
-### Enable the bundles in the kernel (Symfony < 4)
-
-You must add the following bundles into `app/AppKernel.php`:
-
-```php
-<?php
-
-public function registerBundles()
-{
-    $bundles = [
-        // ...
-        new Vich\UploaderBundle\VichUploaderBundle(),
-        new Presta\ImageBundle\PrestaImageBundle(),
-    ];
-}
-```
-
 ### Configure the bundle
 
 You must use the `bootstrap_4.html.twig` form theme into `config/packages/twig.yaml`.
@@ -52,7 +35,7 @@ You must include the routing into `config/routes.yaml`:
 
 ```yaml
 presta_image:
-    resource: "@PrestaImageBundle/Resources/config/routing.yml"
+    resource: "@PrestaImageBundle/Resources/config/routing.yaml"
 ```
 
 See VichUploader [documentation][2] to configure the bundle.
@@ -100,7 +83,7 @@ Note that [jQuery][4] and [Bootstrap][5] are required and must be included.
 
 use Presta\ImageBundle\Form\Type\ImageType;
 
-public function buildForm(FormBuilderInterface $builder, array $options)
+public function buildForm(FormBuilderInterface $builder, array $options): void
 {
     $builder
         ->add('image', ImageType::class)

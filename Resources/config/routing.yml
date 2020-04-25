@@ -1,7 +1,0 @@
-presta_image_url_to_base64:
-    path: "/url_to_base64"
-    defaults:
-        _controller: PrestaImageBundle:Default:urlToBase64
-    methods: ["POST"]
-    options:
-        expose: true

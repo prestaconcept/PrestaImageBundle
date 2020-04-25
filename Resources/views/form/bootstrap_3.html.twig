@@ -1,9 +1,7 @@
 {% trans_default_domain 'PrestaImageBundle' %}
 
 {% block image_widget %}
-{% apply spaceless %}
     <div class="cropper" data-cropper-options="{{ form.vars.cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}" data-mimetype="{{ upload_mimetype }}" data-quality="{{ upload_quality }}">
-
         <div class="row">
             {% if enable_locale %}
                 <div class="col-md-4 cropper-local">
@@ -39,14 +37,12 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="cropper-canvas-container{% if form.delete is defined %} cropper-canvas-has-delete{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
             {% if form.vars.download_uri is defined and form.vars.download_uri %}
                 <img src="{{ asset(form.vars.download_uri) }}" style="max-width: {{ preview_width }}; max-height: {{ preview_height }};">
             {% endif %}
         </div>
         {{ form_row(form.base64) }}
-
         {% set show_aspect_ratios = aspect_ratios|length > 1 %}
         <div class="modal fade">
             <div class="modal-dialog modal-lg">
@@ -66,7 +62,7 @@
                                         {% for aspect_ratio in aspect_ratios %}
                                             <label class="btn btn-primary{% if aspect_ratio.checked %} active{% endif %}">
                                                 <input type="radio" name="cropperAspectRatio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %}>
-                                                {{ aspect_ratio.label }}
+                                                {{ aspect_ratio.label|trans }}
                                             </label>
                                         {% endfor %}
                                     </div>
@@ -94,5 +90,4 @@
             </div>
         </div>
     </div>
-{% endapply %}
 {% endblock %}
