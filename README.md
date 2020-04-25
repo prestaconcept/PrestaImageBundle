@@ -15,11 +15,11 @@ It uses [Cropper][1] jQuery plugin.
 
 ### Require the bundle as a Composer dependency
 
-```shell script
+```bash
 composer require presta/image-bundle
 ```
 
-### Enable the bundles in the kernel (Symfony < 4)
+### Enable the bundles in the kernel
 
 You must add the following bundles into `app/AppKernel.php`:
 
@@ -38,9 +38,9 @@ public function registerBundles()
 
 ### Configure the bundle
 
-You must use the `bootstrap_4.html.twig` form theme into `config/packages/twig.yaml`.
+You must use the `bootstrap_4.html.twig` form theme into `app/config.yml`.
 
-```yaml
+```yml
 twig:
     form_themes:
         - "@PrestaImage/form/bootstrap_4.html.twig"
@@ -48,9 +48,9 @@ twig:
 
 > Note: you can also use the `bootstrap_3.html.twig` form theme instead.
 
-You must include the routing into `config/routes.yaml`:
+You must include the routing into `app/config/routing.yml`:
 
-```yaml
+```yml
 presta_image:
     resource: "@PrestaImageBundle/Resources/config/routing.yml"
 ```
@@ -59,17 +59,16 @@ See VichUploader [documentation][2] to configure the bundle.
 
 ### Install assets
 
-See Cropper [documentation][3] to install assets.
+See Cropper [quick start section][3] to install assets.
+
+Note that [jQuery][4] and [Bootstrap][5] are required.
 
 Don't forget to include the following assets in your page:
 
 - `/path/to/cropper/dist/cropper.min.css`
 - `/path/to/cropper/dist/cropper.min.js`
-- `/path/to/cropper/dist/jquery-cropper.min.js`
 - `@PrestaImageBundle/Resources/public/css/cropper.css`
 - `@PrestaImageBundle/Resources/public/js/cropper.js`
-
-Note that [jQuery][4] and [Bootstrap][5] are required and must be included.
 
 ### How to: implementation examples
 
@@ -126,11 +125,10 @@ Available options for the `ImageType`:
 - `enable_remote` (`bool`): whether to enable the remote upload (default: `true`)
 - `upload_mimetype` (`string`): format of the image to be uploaded (default: `image/png`)  
   (Note: If the chosen mimetype is not supported by the browser, it will silently fall back to `image/png`)
-- `upload_quality` (`float`): quality (0..1) of uploaded image for lossy imageformats (eg. `image/jpeg`) (default: `0.92`) 
-  
+- `upload_quality` (`float`): quality (0..1) of uploaded image for lossy imageformats (eg. `image/jpeg`) (default: `0.92`)   
 #### Notes
 
-You can find Cropper options [here][7].
+You can find Cropper options [here](https://github.com/fengyuanchen/cropper#options).
 
 The `max_width` and `max_height` options are used to define maximum size the cropped uploaded image will be.
 Bigger images (after cropping) are scaled down.
@@ -154,10 +152,9 @@ Thanks to
 
 Released under the MIT License
 
-[1]: https://github.com/fengyuanchen/jquery-cropper
+[1]: https://fengyuanchen.github.io/cropper/
 [2]: https://github.com/dustin10/VichUploaderBundle/blob/master/Resources/doc/usage.md
-[3]: https://github.com/fengyuanchen/jquery-cropper#installation
+[3]: https://github.com/fengyuanchen/cropper#quick-start
 [4]: https://jquery.com/download/
-[5]: https://getbootstrap.com/docs/4.4/getting-started/download/
+[5]: http://getbootstrap.com/getting-started/#download
 [6]: https://github.com/presta/ImageBundle/blob/master/Resources/doc/webpack.md
-[7]: https://github.com/fengyuanchen/cropperjs#options
