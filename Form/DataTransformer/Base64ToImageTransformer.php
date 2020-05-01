@@ -33,8 +33,8 @@ class Base64ToImageTransformer implements DataTransformerInterface
         $file = fopen($filePath, 'w');
         stream_filter_append($file, 'convert.base64-decode');
         fwrite($file, $base64);
-        $meta_data = stream_get_meta_data($file);
-        $path = $meta_data['uri'];
+        $metadata = stream_get_meta_data($file);
+        $path = $metadata['uri'];
         fclose($file);
         $mimeType = mime_content_type($path);
         $extension = str_replace('image/', '', $mimeType);
