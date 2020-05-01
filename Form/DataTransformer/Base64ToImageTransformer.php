@@ -22,7 +22,7 @@ class Base64ToImageTransformer implements DataTransformerInterface
 
     public function reverseTransform($value): ?UploadedFile
     {
-        if (isset($value['base64']) || !$value['base64']) {
+        if (!isset($value['base64']) || !$value['base64']) {
             return null;
         }
 
