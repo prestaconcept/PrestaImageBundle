@@ -142,5 +142,5 @@ Released under the MIT License
 [3]: https://github.com/fengyuanchen/jquery-cropper#installation
 [4]: https://jquery.com/download/
 [5]: https://getbootstrap.com/docs/4.4/getting-started/download/
-[6]: https://github.com/presta/ImageBundle/blob/master/Resources/doc/webpack.md
+[6]: https://github.com/prestaconcept/PrestaImageBundle/blob/master/Resources/doc/webpack.md
 [7]: https://github.com/fengyuanchen/cropperjs#options
