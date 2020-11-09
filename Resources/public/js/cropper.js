@@ -1,13 +1,10 @@
-/* global FileReader */
-(function(w, $){
+const CropperJS = require('cropperjs');
+
+(function(w, $) {
 
     'use strict';
 
-    /**
-     * @param {jQuery} $el
-     * @constructor
-     */
-    var Cropper = function($el) {
+    const Cropper = function($el) {
         this.$el = $el;
         this.options = $.extend({}, $el.data('cropper-options'));
 
@@ -19,9 +16,6 @@
         ;
     };
 
-    /**
-     * @returns {Cropper}
-     */
     Cropper.prototype.initElements = function() {
         this.$modal = this.$el.find('.modal');
         this.$aspectRatio = this.$modal.find('input[name="cropperAspectRatio"]');
@@ -48,26 +42,25 @@
             aspectRatio: this.$aspectRatio.val()
         });
 
+        this.cropper = null;
+
         return this;
     };
 
-    /**
-     * @returns {Cropper}
-     */
     Cropper.prototype.initLocalEvents = function() {
-        var self = this;
+        const self = this;
 
         // map virtual upload button to native input file element
-        this.$local.$btnUpload.on('click', function () {
+        this.$local.$btnUpload.on('click', function() {
             self.$local.$input.trigger('click');
         });
 
         // start cropping process on input file "change"
-        this.$local.$input.on('change', function () {
-            var reader = new FileReader();
+        this.$local.$input.on('change', function() {
+            const reader = new FileReader();
 
             // show a croppable preview image in a modal
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 self.prepareCropping(e.target.result);
 
                 // clear input file so that user can select the same image twice and the "change" event keeps being triggered
@@ -81,24 +74,21 @@
         return this;
     };
 
-    /**
-     * @returns {Cropper}
-     */
     Cropper.prototype.initRemoteEvents = function() {
-        var self = this;
+        const self = this;
 
-        var $btnUpload = this.$remote.$btnUpload;
-        var $uploadLoader = this.$remote.$uploadLoader;
+        const $btnUpload = this.$remote.$btnUpload;
+        const $uploadLoader = this.$remote.$uploadLoader;
 
         // handle distant image upload button state
-        this.$remote.$input.on('change, input', function () {
-            var url = $(this).val();
+        this.$remote.$input.on('change, input', function() {
+            const url = $(this).val();
 
             self.$remote.$btnUpload.prop('disabled', url.length <= 0 || url.indexOf('http') === -1);
         });
 
         // start cropping process get image's base64 representation from local server to avoid cross-domain issues
-        this.$remote.$btnUpload.on('click', function () {
+        this.$remote.$btnUpload.on('click', function() {
             $btnUpload.hide();
             $uploadLoader.removeClass('hidden d-none');
             $.ajax({
@@ -107,7 +97,7 @@
                     url: self.$remote.$input.val()
                 },
                 method: 'post'
-            }).done(function (data) {
+            }).done(function(data) {
                 self.prepareCropping(data.base64);
                 $btnUpload.show();
                 $uploadLoader.addClass('hidden d-none');
@@ -117,11 +107,8 @@
         return this;
     };
 
-    /**
-     * @returns {Cropper}
-     */
     Cropper.prototype.initCroppingEvents = function() {
-        var self = this;
+        const self = this;
 
         // handle image cropping
         this.$modal.find('[data-method="getCroppedCanvas"]').on('click', function() {
@@ -130,14 +117,14 @@
 
         // handle "aspectRatio" switch
         this.$aspectRatio.on('change', function() {
-            self.$container.$preview.children('img').cropper('setAspectRatio', $(this).val());
+            self.cropper.setAspectRatio($(this).val());
         });
 
         this.$rotator.on('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
 
-          self.$container.$preview.children('img').cropper('rotate', $(this).data('rotate'));
+            self.cropper.rotate($(this).data('rotate'));
         });
 
         return this;
@@ -145,18 +132,19 @@
 
     /**
      * Open cropper "editor" in a modal with the base64 uploaded image.
-     *
-     * @param {string} base64
      */
     Cropper.prototype.prepareCropping = function(base64) {
-        var self = this;
+        const self = this;
 
         // clean previous croppable image
-        this.$container.$preview.children('img').cropper('destroy').remove();
+        if (this.cropper) {
+            this.cropper.destroy();
+            this.$container.$preview.children('img').remove();
+        }
 
         // reset "aspectRatio" buttons
         this.$aspectRatio.each(function() {
-            var $this = $(this);
+            const $this = $(this);
 
             if ($this.val().length <= 0) {
                 $this.trigger('click');
@@ -169,18 +157,19 @@
                 $('<img>')
                     .attr('src', base64)
                     .on('load', function() {
-                        $(this).cropper(self.options);
+                        self.cropper = new CropperJS(this, self.options)
                     })
                     .appendTo(self.$container.$preview);
             })
-            .modal('show');
+            .modal('show')
+        ;
     };
 
     /**
      * Create canvas from cropped image and fill in the hidden input with canvas base64 data.
      */
     Cropper.prototype.crop = function() {
-        var data = this.$container.$preview.children('img').cropper('getData'),
+        const data = this.cropper.getData(),
             image_width = Math.min(this.$el.data('max-width'), data.width),
             image_height = Math.min(this.$el.data('max-height'), data.height),
             preview_width = Math.min(this.$container.$canvas.data('preview-width'), data.width),
@@ -193,11 +182,11 @@
             // source of 200x300 with resize to 150x200 results in 150x225 => WRONG (should be: 133x200)
             // source of 200x300 with resize to 200x150 results in 200x300 => WRONG (should be: 100x150)
             // This is an issue with cropper, not this library
-            preview_canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
+            preview_canvas = this.cropper.getCroppedCanvas({
                 width: preview_width,
                 height: preview_height
             }),
-            image_canvas = this.$container.$preview.children('img').cropper('getCroppedCanvas', {
+            image_canvas = this.cropper.getCroppedCanvas({
                 width: image_width,
                 height: image_height
             });
