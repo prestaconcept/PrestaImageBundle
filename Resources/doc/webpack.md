@@ -5,7 +5,7 @@
 - Install npm dependencies
 
 ```bash
-npm install --save bootstrap cropper jquery popper.js
+npm install --save bootstrap cropperjs jquery jquery-cropper popper.js
 npm install --save-dev @symfony/webpack-encore node-sass sass-loader webpack-notifier
 ```
 
@@ -15,6 +15,10 @@ npm install --save-dev @symfony/webpack-encore node-sass sass-loader webpack-not
 const Encore = require('@symfony/webpack-encore');
 const path = require('path');
 
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+}
+
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
@@ -22,16 +26,25 @@ Encore
     .addEntry('js/app', './assets/js/app.js')
     .addStyleEntry('css/app', './assets/css/app.scss')
 
+    .splitEntryChunks()
+    .enableSingleRuntimeChunk()
+
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
+
+    .configureBabelPresetEnv((config) => {
+        config.useBuiltIns = 'usage';
+        config.corejs = 3;
+    })
 
     .addAliases({
         prestaimage: path.resolve(__dirname, 'public/bundles/prestaimage')
     })
 
     .enableSassLoader()
+    .enableIntegrityHashes(Encore.isProduction())
     .autoProvidejQuery()
 ;
 
@@ -49,8 +62,9 @@ module.exports = Encore.getWebpackConfig();
 - Minimal `assets/js/app.js`
 
 ```javascript
+import $ from 'jquery';
 import 'bootstrap';
-import 'cropper/dist/cropper.min'
+import 'cropperjs'
 import * as Cropper from 'prestaimage/js/cropper';
 
 $(function() {
@@ -69,13 +83,13 @@ $(function() {
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+            {{ encore_entry_link_tags('css/app') }}
         {% endblock %}
     </head>
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            <script src="{{ asset('build/js/app.js') }}"></script>
+            {{ encore_entry_script_tags('js/app') }}
         {% endblock %}
     </body>
 </html>

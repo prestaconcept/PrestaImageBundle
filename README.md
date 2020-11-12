@@ -46,9 +46,6 @@ See Cropper [documentation][3] to install assets.
 
 Don't forget to include the following assets in your page:
 
-- `/path/to/cropper/dist/cropper.min.css`
-- `/path/to/cropper/dist/cropper.min.js`
-- `/path/to/cropper/dist/jquery-cropper.min.js`
 - `@PrestaImageBundle/Resources/public/css/cropper.css`
 - `@PrestaImageBundle/Resources/public/js/cropper.js`
 
