@@ -21,15 +21,15 @@ composer require presta/image-bundle
 
 ### Configure the bundle
 
-You must use the `bootstrap_4.html.twig` form theme into `config/packages/twig.yaml`.
+You must use the `bootstrap_5.html.twig` form theme into `config/packages/twig.yaml`.
 
 ```yaml
 twig:
     form_themes:
-        - "@PrestaImage/form/bootstrap_4.html.twig"
+        - "@PrestaImage/form/bootstrap_5.html.twig"
 ```
 
-> Note: you can also use the `bootstrap_3.html.twig` form theme instead.
+> Note: you can also use the `bootstrap_4.html.twig` or the `bootstrap_3.html.twig` form theme instead.
 
 You must include the routing into `config/routes.yaml`:
 
@@ -66,11 +66,19 @@ Note that [jQuery][4] and [Bootstrap][5] are required and must be included.
 
     $(function() {
         $('.cropper').each(function() {
-            new Cropper($(this));
+            new Cropper($(this), true);
         });
     });
 
 })(window, jQuery);
+```
+
+Note that you must skip the second parameter (or set it to `false`) if you are using a version of bootstrap < 5.
+
+```javascript
+// ...
+new Cropper($(this));
+// ...
 ```
 
 ### Use the form type
@@ -135,9 +143,9 @@ Thanks to
 Released under the MIT License
 
 [1]: https://github.com/fengyuanchen/jquery-cropper
-[2]: https://github.com/dustin10/VichUploaderBundle/blob/master/Resources/doc/usage.md
+[2]: https://github.com/dustin10/VichUploaderBundle/blob/master/docs/usage.md
 [3]: https://github.com/fengyuanchen/jquery-cropper#installation
 [4]: https://jquery.com/download/
-[5]: https://getbootstrap.com/docs/4.4/getting-started/download/
+[5]: https://getbootstrap.com/docs/5.1/getting-started/download/
 [6]: https://github.com/prestaconcept/PrestaImageBundle/blob/master/Resources/doc/webpack.md
 [7]: https://github.com/fengyuanchen/cropperjs#options

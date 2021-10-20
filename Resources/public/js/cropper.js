@@ -1,22 +1,23 @@
+const bootstrap = require('bootstrap');
 const CropperJS = require('cropperjs');
 
 (function(w, $) {
 
     'use strict';
 
-    const Cropper = function($el) {
+    const Cropper = function($el, modalV5 = false) {
         this.$el = $el;
         this.options = $.extend({}, $el.data('cropper-options'));
 
         this
-            .initElements()
+            .initElements(modalV5)
             .initLocalEvents()
             .initRemoteEvents()
             .initCroppingEvents()
         ;
     };
 
-    Cropper.prototype.initElements = function() {
+    Cropper.prototype.initElements = function(modalV5) {
         this.$modal = this.$el.find('.modal');
         this.$aspectRatio = this.$modal.find('input[name="cropperAspectRatio"]');
         this.$rotator = this.$modal.find('.rotate');
@@ -43,6 +44,7 @@ const CropperJS = require('cropperjs');
         });
 
         this.cropper = null;
+        this.modal = modalV5 ? new bootstrap.Modal(this.$modal) : undefined;
 
         return this;
     };
@@ -151,18 +153,29 @@ const CropperJS = require('cropperjs');
             }
         });
 
-        this.$modal
-            .one('shown.bs.modal', function() {
-                // (re)build croppable image once the modal is shown (required to get proper image width)
+        this.$modal.each((index, element) => {
+            const rebuildCroppableImage = () => {
                 $('<img>')
                     .attr('src', base64)
                     .on('load', function() {
                         self.cropper = new CropperJS(this, self.options)
                     })
-                    .appendTo(self.$container.$preview);
-            })
-            .modal('show')
-        ;
+                    .appendTo(self.$container.$preview)
+                ;
+            }
+
+            // support for bootstrap < 5
+            $(element).one('shown.bs.modal', rebuildCroppableImage);
+
+            // support for bootstrap >= 5
+            element.addEventListener('shown.bs.modal', rebuildCroppableImage, {once: true})
+        })
+
+        if (this.modal) {
+            this.modal.show();
+        } else {
+            this.$modal.modal('show');
+        }
     };
 
     /**
@@ -198,7 +211,11 @@ const CropperJS = require('cropperjs');
         this.$input.val(image_canvas.toDataURL(this.$el.data('mimetype'), this.$el.data('quality')));
 
         // hide the modal
-        this.$modal.modal('hide');
+        if (this.modal) {
+            this.modal.hide();
+        } else {
+            this.$modal.modal('hide');
+        }
     };
 
     if (typeof module !== 'undefined' && 'exports' in module) {
