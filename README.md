@@ -9,7 +9,7 @@ PrestaImageBundle
 ## Overview
 
 PrestaImageBundle is a Symfony bundle providing tools to resize local/remote images before uploading them through a classic form.
-It uses [Cropper][1] jQuery plugin.
+It uses the [Cropper.js][1] library.
 
 ## Installation
 
@@ -21,15 +21,15 @@ composer require presta/image-bundle
 
 ### Configure the bundle
 
-You must use the `bootstrap_5.html.twig` form theme into `config/packages/twig.yaml`.
+You must configure the `form_layout.html.twig` form theme into `config/packages/twig.yaml`.
 
 ```yaml
 twig:
     form_themes:
-        - "@PrestaImage/form/bootstrap_5.html.twig"
+        - "@PrestaImage/form/form_layout.html.twig"
 ```
 
-> Note: you can also use the `bootstrap_4.html.twig` or the `bootstrap_3.html.twig` form theme instead.
+> Note: you can also create your own form theme instead.
 
 You must include the routing into `config/routes.yaml`:
 
@@ -42,43 +42,25 @@ See VichUploader [documentation][2] to configure the bundle.
 
 ### Install assets
 
-See Cropper [documentation][3] to install assets.
+See Cropper.js [documentation][3] to install assets.
 
 Don't forget to include the following assets in your page:
 
 - `@PrestaImageBundle/Resources/public/css/cropper.css`
 - `@PrestaImageBundle/Resources/public/js/cropper.js`
 
-Note that [jQuery][4] and [Bootstrap][5] are required and must be included.
-
 ### How to: implementation examples
 
-- [Webpack Encore][6]
+- [Webpack Encore][4]
 
 ## Usage
 
 ### Initialize cropper
 
 ```javascript
-(function(w, $) {
-
-    'use strict';
-
-    $(function() {
-        $('.cropper').each(function() {
-            new Cropper($(this), true);
-        });
-    });
-
-})(window, jQuery);
-```
-
-Note that you must skip the second parameter (or set it to `false`) if you are using a version of bootstrap < 5.
-
-```javascript
-// ...
-new Cropper($(this));
-// ...
+document.querySelectorAll('.presta-image').forEach(element => {
+    new Cropper(element)
+})
 ```
 
 ### Use the form type
@@ -105,7 +87,6 @@ Available options for the `ImageType`:
 - `preview_width` (`string`): the max width to use when displaying the image preview - can be in px, % or other css value (default: `'320px'`)
 - `preview_height` (`string`): the max height to use when displaying the image preview - can be in px, % or other css value (default: `'180px'`)
 - `upload_button_class` (`string`): class of the button (default: `'btn btn-sm btn-primary'`)
-- `upload_button_icon` (`string`): class of the button (default: `'fa fa-upload'`)
 - `cancel_button_class` (`string`): class of the button (default: `'btn btn-default'`)
 - `save_button_class` (`string`): class of the button (default: `'btn btn-primary'`)
 - `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
@@ -118,14 +99,13 @@ Available options for the `ImageType`:
   
 #### Notes
 
-You can find Cropper options [here][7].
+You can find Cropper.js options [here][5].
 
 The `max_width` and `max_height` options are used to define maximum size the cropped uploaded image will be.
 Bigger images (after cropping) are scaled down.
 
 **Security Note:** NEVER rely on this size constraints and the format settings as 
-they can be easily manipulated client side. ALWAYS validate the image-data, -size, -format 
-at server side! 
+they can easily be manipulated client side. ALWAYS validate the `image-data`, `image-size,` `image-format` server side! 
 
 ## Contributing
 
@@ -142,10 +122,8 @@ Thanks to
 
 Released under the MIT License
 
-[1]: https://github.com/fengyuanchen/jquery-cropper
+[1]: https://github.com/fengyuanchen/cropperjs
 [2]: https://github.com/dustin10/VichUploaderBundle/blob/master/docs/usage.md
-[3]: https://github.com/fengyuanchen/jquery-cropper#installation
-[4]: https://jquery.com/download/
-[5]: https://getbootstrap.com/docs/5.1/getting-started/download/
-[6]: https://github.com/prestaconcept/PrestaImageBundle/blob/master/Resources/doc/webpack.md
-[7]: https://github.com/fengyuanchen/cropperjs#options
+[3]: https://github.com/fengyuanchen/cropperjs#getting-started
+[4]: https://github.com/prestaconcept/PrestaImageBundle/blob/master/Resources/doc/webpack.md
+[5]: https://github.com/fengyuanchen/cropperjs#options

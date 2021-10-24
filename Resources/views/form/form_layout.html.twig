@@ -1,0 +1,75 @@
+{% trans_default_domain 'PrestaImageBundle' %}
+
+{% block image_widget %}
+    <div class="presta-image" data-cropper-options="{{ cropper_options }}" data-max-width="{{ max_width }}" data-max-height="{{ max_height }}" data-mimetype="{{ upload_mimetype }}" data-quality="{{ upload_quality }}">
+        <div class="presta-image-form">
+            <div class="presta-image-form-canvas{% if form.delete is defined %} deletable{% endif %}" data-preview-width="{{ preview_width }}" data-preview-height="{{ preview_height }}">
+                {% if download_uri is defined and download_uri %}
+                    <img src="{{ asset(download_uri) }}" alt="{{ 'image_preview'|trans }}" style="max-width: {{ preview_width }}; max-height: {{ preview_height }};" />
+                {% endif %}
+            </div>
+
+            <div class="presta-image-form-widgets">
+                {% if file_upload_enabled %}
+                    <div class="presta-image-form-widget widget-file-upload">
+                        <input type="file" name="file" />
+                        <button type="button" class="{{ upload_button_class }}">{{ 'btn_import_image_local'|trans }}</button>
+                    </div>
+                {% endif %}
+
+                {% if remote_url_enabled %}
+                    <div class="presta-image-form-widget widget-remote-url">
+                        <input type="url" placeholder="{{ 'image_dist_placeholder'|trans }}" />
+                        <button type="button" disabled="disabled" data-url="{{ path('presta_image_url_to_base64') }}">{{ 'btn_import_image_remote'|trans }}</button>
+                        <div class="loader hidden">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if form.delete is defined %}
+                    {{ form_row(form.delete) }}
+                {% endif %}
+            </div>
+
+            {{ form_row(form.base64) }}
+        </div>
+        <div class="presta-image-modal hidden">
+            <div class="presta-image-modal-header">
+                <h5>{{ 'resize_image'|trans }}</h5>
+                <button type="button" class="close">&times;</button>
+            </div>
+            <div class="presta-image-modal-body">
+                <div class="preview"></div>
+                {% if aspect_ratios|length > 1 %}
+                    <div>
+                        {% for aspect_ratio in aspect_ratios %}
+                            <label class="{% if aspect_ratio.checked %}active{% endif %}">
+                                <input type="radio" name="cropper_aspect_ratio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %} />
+                                {{ aspect_ratio.label|trans }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {% for aspect_ratio in aspect_ratios %}
+                        <input type="hidden" name="cropper_aspect_ratio" value="{{ aspect_ratio.value }}"{% if aspect_ratio.checked %} checked="checked"{% endif %} />
+                    {% endfor %}
+                {% endif %}
+
+                {% if rotation_enabled %}
+                    <div>
+                        <button class="rotate" data-rotate="90"></button>
+                        <button class="rotate anti-rotate" data-rotate="-90"></button>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="presta-image-modal-footer">
+                <button type="button" class="close {{ cancel_button_class }}">{{ 'btn_cancel'|trans }}</button>
+                <button type="button" class="{{ save_button_class }}" data-method="getCroppedCanvas">{{ 'btn_validate'|trans }}</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

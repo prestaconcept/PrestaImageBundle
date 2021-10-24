@@ -69,10 +69,9 @@ class ImageType extends AbstractType
             ->setDefault('preview_height', function (Options $options) {
                 return sprintf('%dpx', $options['max_height']);
             })
-            ->setDefault('upload_button_class', 'btn btn-sm btn-primary')
-            ->setDefault('upload_button_icon', 'fa fa-upload')
-            ->setDefault('cancel_button_class', 'btn btn-default')
-            ->setDefault('save_button_class', 'btn btn-primary')
+            ->setDefault('upload_button_class', null)
+            ->setDefault('cancel_button_class', null)
+            ->setDefault('save_button_class', null)
             ->setDefault('download_uri', null)
             ->setDefault('download_link', true)
             ->setDefault('enable_locale', true)
@@ -94,17 +93,15 @@ class ImageType extends AbstractType
         $view->vars['preview_width'] = $options['preview_width'];
         $view->vars['preview_height'] = $options['preview_height'];
         $view->vars['upload_button_class'] = $options['upload_button_class'];
-        $view->vars['upload_button_icon'] = $options['upload_button_icon'];
         $view->vars['cancel_button_class'] = $options['cancel_button_class'];
         $view->vars['save_button_class'] = $options['save_button_class'];
-        $view->vars['enable_locale'] = $options['enable_locale'];
-        $view->vars['enable_remote'] = $options['enable_remote'];
-        $view->vars['enable_rotation'] = $options['enable_rotation'];
+        $view->vars['file_upload_enabled'] = $options['enable_locale'];
+        $view->vars['remote_url_enabled'] = $options['enable_remote'];
+        $view->vars['rotation_enabled'] = $options['enable_rotation'];
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
-        $view->vars['object'] = $form->getParent()->getData();
 
-        if ($options['download_link'] && $view->vars['object']) {
+        if ($options['download_link'] && $form->getParent()->getData()) {
             $view->vars['download_uri'] = $this->storage->resolveUri($form->getParent()->getData(), $form->getName());
         }
     }

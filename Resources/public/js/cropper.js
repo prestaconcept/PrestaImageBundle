@@ -1,227 +1,201 @@
-const bootstrap = require('bootstrap');
-const CropperJS = require('cropperjs');
+const CropperJS = require('cropperjs')
 
-(function(w, $) {
+export default class {
+    constructor(element) {
+        this.options = JSON.parse(element.dataset.cropperOptions)
+        this.cropper = null
 
-    'use strict';
+        this.initializeElements(element)
+        this.initializeFileUploadEvents()
+        this.initializeRemoteUrlEvents()
+        this.initializeCroppingEvents()
+    }
 
-    const Cropper = function($el, modalV5 = false) {
-        this.$el = $el;
-        this.options = $.extend({}, $el.data('cropper-options'));
+    initializeElements(element) {
+        const form = element.querySelector('.presta-image-form')
+        const modal = element.querySelector('.presta-image-modal')
 
-        this
-            .initElements(modalV5)
-            .initLocalEvents()
-            .initRemoteEvents()
-            .initCroppingEvents()
-        ;
-    };
+        this.elements = {
+            form: {
+                canvas: form.querySelector('.presta-image-form-canvas'),
+                input: form.querySelector('input[type="hidden"].cropper-base64'),
+                widgets: {
+                    fileUpload: {
+                        button: form.querySelector('.widget-file-upload button'),
+                        input: form.querySelector('.widget-file-upload input[type="file"]'),
+                    },
+                    remoteUrl: {
+                        button: form.querySelector('.widget-remote-url button'),
+                        loader: form.querySelector('.widget-remote-url .loader'),
+                        input: form.querySelector('.widget-remote-url input[type="url"]'),
+                    },
+                },
+            },
+            modal: {
+                aspectRatios: modal.querySelectorAll('input[name="cropper_aspect_ratio"]'),
+                closeButtons: modal.querySelectorAll('.close'),
+                preview: modal.querySelector('.preview'),
+                rotate: modal.querySelector('.rotate'),
+                root: modal,
+            },
+            root: element,
+        }
 
-    Cropper.prototype.initElements = function(modalV5) {
-        this.$modal = this.$el.find('.modal');
-        this.$aspectRatio = this.$modal.find('input[name="cropperAspectRatio"]');
-        this.$rotator = this.$modal.find('.rotate');
-        this.$input = this.$el.find('input.cropper-base64');
+        this.options = Object.assign(this.options, {
+            aspectRatio: Array.from(this.elements.modal.aspectRatios).filter(element => element.checked)[0].value
+        })
+    }
 
-        this.$container = {
-            $preview: this.$modal.find('.cropper-preview'),
-            $canvas: this.$el.find('.cropper-canvas-container')
-        };
-
-        this.$local = {
-            $btnUpload: this.$el.find('.cropper-local button'),
-            $input: this.$el.find('.cropper-local input[type="file"]')
-        };
-
-        this.$remote = {
-            $btnUpload: this.$el.find('.cropper-remote button'),
-            $uploadLoader: this.$el.find('.cropper-remote .remote-loader'),
-            $input: this.$el.find('.cropper-remote input[type="url"]')
-        };
-
-        this.options = $.extend(this.options, {
-            aspectRatio: this.$aspectRatio.val()
-        });
-
-        this.cropper = null;
-        this.modal = modalV5 ? new bootstrap.Modal(this.$modal) : undefined;
-
-        return this;
-    };
-
-    Cropper.prototype.initLocalEvents = function() {
-        const self = this;
-
+    initializeFileUploadEvents() {
         // map virtual upload button to native input file element
-        this.$local.$btnUpload.on('click', function() {
-            self.$local.$input.trigger('click');
-        });
+        this.elements.form.widgets.fileUpload.button.addEventListener('click', () => {
+            this.elements.form.widgets.fileUpload.input.click()
+        })
 
-        // start cropping process on input file "change"
-        this.$local.$input.on('change', function() {
+        this.elements.form.widgets.fileUpload.input.addEventListener('change', () => {
             const reader = new FileReader();
 
             // show a croppable preview image in a modal
-            reader.onload = function(e) {
-                self.prepareCropping(e.target.result);
+            reader.onload = (event) => {
+                this.prepareCropping(event.target.result);
 
                 // clear input file so that user can select the same image twice and the "change" event keeps being triggered
-                self.$local.$input.val('');
+                this.elements.form.widgets.fileUpload.input.value = ''
             };
 
             // trigger "reader.onload" with uploaded file
-            reader.readAsDataURL(this.files[0]);
-        });
+            reader.readAsDataURL(event.target.files[0])
+        })
+    }
 
-        return this;
-    };
-
-    Cropper.prototype.initRemoteEvents = function() {
-        const self = this;
-
-        const $btnUpload = this.$remote.$btnUpload;
-        const $uploadLoader = this.$remote.$uploadLoader;
-
+    initializeRemoteUrlEvents() {
         // handle distant image upload button state
-        this.$remote.$input.on('change, input', function() {
-            const url = $(this).val();
+        this.elements.form.widgets.remoteUrl.input.addEventListener('change', (event) => {
+            const url = event.currentTarget.value
 
-            self.$remote.$btnUpload.prop('disabled', url.length <= 0 || url.indexOf('http') === -1);
+            this.elements.form.widgets.remoteUrl.button.disabled = 0 === url.length || -1 === url.indexOf('http')
         });
 
         // start cropping process get image's base64 representation from local server to avoid cross-domain issues
-        this.$remote.$btnUpload.on('click', function() {
-            $btnUpload.hide();
-            $uploadLoader.removeClass('hidden d-none');
-            $.ajax({
-                url: $btnUpload.data('url'),
-                data: {
-                    url: self.$remote.$input.val()
-                },
-                method: 'post'
-            }).done(function(data) {
-                self.prepareCropping(data.base64);
-                $btnUpload.show();
-                $uploadLoader.addClass('hidden d-none');
-            });
-        });
+        this.elements.form.widgets.remoteUrl.button.addEventListener('click', () => {
+            this.elements.form.widgets.remoteUrl.button.classList.add('hidden')
+            this.elements.form.widgets.remoteUrl.loader.classList.remove('hidden')
 
-        return this;
-    };
+            const request = new XMLHttpRequest()
+            request.open('POST', this.elements.form.widgets.remoteUrl.button.dataset.url, true)
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            request.onreadystatechange = (event) => {
+                if (event.currentTarget.readyState === XMLHttpRequest.DONE && event.currentTarget.status === 200) {
+                    const response = JSON.parse(event.currentTarget.response)
+                    this.prepareCropping(response.base64)
+                }
 
-    Cropper.prototype.initCroppingEvents = function() {
-        const self = this;
+                this.elements.form.widgets.remoteUrl.button.classList.remove('hidden')
+                this.elements.form.widgets.remoteUrl.loader.classList.add('hidden')
+            }
+            request.send(`url=${this.elements.form.widgets.remoteUrl.input.value}`)
+        })
+    }
 
+    initializeCroppingEvents() {
         // handle image cropping
-        this.$modal.find('[data-method="getCroppedCanvas"]').on('click', function() {
-            self.crop();
-        });
+        this.elements.modal.root.querySelector('[data-method="getCroppedCanvas"]').addEventListener('click', () => {
+            this.crop()
+        })
 
         // handle "aspectRatio" switch
-        this.$aspectRatio.on('change', function() {
-            self.cropper.setAspectRatio($(this).val());
-        });
+        this.elements.modal.aspectRatios.forEach(element => {
+            element.addEventListener('change', (event) => {
+                this.cropper.setAspectRatio(event.currentTarget.value)
+            })
+        })
 
-        this.$rotator.on('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        // handle "rotate" action
+        if (this.elements.modal.rotate) {
+            this.elements.modal.rotate.addEventListener('click', (event) => {
+                event.preventDefault()
+                event.stopPropagation()
 
-            self.cropper.rotate($(this).data('rotate'));
-        });
+                this.cropper.rotate(event.currentTarget.dataset.rotate)
+            })
+        }
 
-        return this;
-    };
+        // handle "close" action
+        this.elements.modal.closeButtons.forEach(element => {
+            element.addEventListener('click', () => {
+                this.elements.modal.root.classList.add('hidden')
+            })
+        })
+    }
 
     /**
      * Open cropper "editor" in a modal with the base64 uploaded image.
      */
-    Cropper.prototype.prepareCropping = function(base64) {
-        const self = this;
-
+    prepareCropping(base64) {
         // clean previous croppable image
         if (this.cropper) {
-            this.cropper.destroy();
-            this.$container.$preview.children('img').remove();
+            this.cropper.destroy()
+            this.elements.modal.preview.innerHTML = ''
         }
 
         // reset "aspectRatio" buttons
-        this.$aspectRatio.each(function() {
-            const $this = $(this);
-
-            if ($this.val().length <= 0) {
-                $this.trigger('click');
+        this.elements.modal.aspectRatios.forEach(element => {
+            if (0 === element.value.length) {
+                element.click()
             }
-        });
-
-        this.$modal.each((index, element) => {
-            const rebuildCroppableImage = () => {
-                $('<img>')
-                    .attr('src', base64)
-                    .on('load', function() {
-                        self.cropper = new CropperJS(this, self.options)
-                    })
-                    .appendTo(self.$container.$preview)
-                ;
-            }
-
-            // support for bootstrap < 5
-            $(element).one('shown.bs.modal', rebuildCroppableImage);
-
-            // support for bootstrap >= 5
-            element.addEventListener('shown.bs.modal', rebuildCroppableImage, {once: true})
         })
 
-        if (this.modal) {
-            this.modal.show();
-        } else {
-            this.$modal.modal('show');
-        }
-    };
+        // handle image preview in the modal
+        const preview = document.createElement('img')
+        preview.src = base64
+        preview.addEventListener('load', (event) => {
+            this.cropper = new CropperJS(event.currentTarget, this.options)
+        })
+
+        this.elements.modal.preview.append(preview)
+        this.elements.modal.root.classList.remove('hidden')
+    }
 
     /**
      * Create canvas from cropped image and fill in the hidden input with canvas base64 data.
      */
-    Cropper.prototype.crop = function() {
-        const data = this.cropper.getData(),
-            image_width = Math.min(this.$el.data('max-width'), data.width),
-            image_height = Math.min(this.$el.data('max-height'), data.height),
-            preview_width = Math.min(this.$container.$canvas.data('preview-width'), data.width),
-            preview_height = Math.min(this.$container.$canvas.data('preview-height'), data.height),
+    crop() {
+        const data = this.cropper.getData()
+        const imageWidth = Math.min(parseInt(this.elements.root.dataset.maxWidth), data.width)
+        const imageHeight = Math.min(parseInt(this.elements.root.dataset.maxHeight), data.height)
+        const previewWidth = Math.min(parseInt(this.elements.form.canvas.dataset.previewWidth), data.width)
+        const previewHeight = Math.min(parseInt(this.elements.form.canvas.dataset.previewHeight), data.height)
 
-            // TODO: getCroppedCanvas seams to only consider one dimension when calculating the maximum size
-            // in respect to the aspect ratio and always considers width first, so height is basically ignored!
-            // To set a maximum height, no width parameter should be set.
-            // Example of current wrong behavior:
-            // source of 200x300 with resize to 150x200 results in 150x225 => WRONG (should be: 133x200)
-            // source of 200x300 with resize to 200x150 results in 200x300 => WRONG (should be: 100x150)
-            // This is an issue with cropper, not this library
-            preview_canvas = this.cropper.getCroppedCanvas({
-                width: preview_width,
-                height: preview_height
-            }),
-            image_canvas = this.cropper.getCroppedCanvas({
-                width: image_width,
-                height: image_height
-            });
+        // "getCroppedCanvas()" seems to only consider one dimension when calculating the maximum size
+        // in respect to the aspect ratio and always considers width first, so height is basically ignored!
+        // To set a maximum height, no width parameter should be set.
+        // Example of current wrong behavior:
+        // source of 200x300 with resize to 150x200 results in 150x225 => WRONG (should be: 133x200)
+        // source of 200x300 with resize to 200x150 results in 200x300 => WRONG (should be: 100x150)
+        // This is an issue with cropper, not this library
 
-        // fill canvas preview container with cropped image
-        this.$container.$canvas.html(preview_canvas);
+        const previewCanvas = this.cropper.getCroppedCanvas({
+            width: previewWidth,
+            height: previewHeight,
+        })
+
+        const imageCanvas = this.cropper.getCroppedCanvas({
+            width: imageWidth,
+            height: imageHeight,
+        })
+
+        // fill preview canvas with cropped image
+        previewCanvas.toBlob(blob => {
+            const preview = document.createElement('img')
+            preview.src = URL.createObjectURL(blob)
+
+            this.elements.form.canvas.innerHTML = preview.outerHTML
+        })
 
         // fill input with base64 cropped image
-        this.$input.val(image_canvas.toDataURL(this.$el.data('mimetype'), this.$el.data('quality')));
+        this.elements.form.input.value = imageCanvas.toDataURL(this.elements.root.dataset.mimetype, this.elements.root.dataset.quality)
 
         // hide the modal
-        if (this.modal) {
-            this.modal.hide();
-        } else {
-            this.$modal.modal('hide');
-        }
-    };
-
-    if (typeof module !== 'undefined' && 'exports' in module) {
-        module.exports = Cropper;
-    } else {
-        window.Cropper = Cropper;
+        this.elements.modal.root.classList.add('hidden')
     }
-
-})(window, jQuery);
+}
