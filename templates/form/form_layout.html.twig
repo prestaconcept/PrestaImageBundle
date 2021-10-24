@@ -19,7 +19,10 @@
 
                 {% if remote_url_enabled %}
                     <div class="presta-image-form-widget widget-remote-url">
-                        <input type="url" placeholder="{{ 'image_dist_placeholder'|trans }}" />
+                        <label>
+                            {{ 'image_dist_label'|trans }}
+                            <input type="url" placeholder="{{ 'image_dist_placeholder'|trans }}" />
+                        </label>
                         <button type="button" disabled="disabled" data-url="{{ path('presta_image_url_to_base64') }}">{{ 'btn_import_image_remote'|trans }}</button>
                         <div class="loader hidden">
                             <div class="rect1"></div>
