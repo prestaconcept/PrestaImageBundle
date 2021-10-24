@@ -69,14 +69,14 @@ class ImageType extends AbstractType
             ->setDefault('preview_height', function (Options $options) {
                 return sprintf('%dpx', $options['max_height']);
             })
-            ->setDefault('upload_button_class', null)
-            ->setDefault('cancel_button_class', null)
-            ->setDefault('save_button_class', null)
+            ->setDefault('upload_button_class', '')
+            ->setDefault('cancel_button_class', '')
+            ->setDefault('save_button_class', '')
             ->setDefault('download_uri', null)
             ->setDefault('download_link', true)
-            ->setDefault('enable_locale', true)
-            ->setDefault('enable_remote', true)
-            ->setDefault('enable_rotation', false)
+            ->setDefault('file_upload_enabled', true)
+            ->setDefault('remote_url_enabled', true)
+            ->setDefault('rotation_enabled', false)
             ->setDefault('translation_domain', 'PrestaImageBundle')
             ->setDefault('upload_mimetype', 'image/png')
             ->setDefault('upload_quality', 0.92)  // default value: https://developer.mozilla.org/de/docs/Web/API/HTMLCanvasElement/toDataURL
@@ -95,9 +95,9 @@ class ImageType extends AbstractType
         $view->vars['upload_button_class'] = $options['upload_button_class'];
         $view->vars['cancel_button_class'] = $options['cancel_button_class'];
         $view->vars['save_button_class'] = $options['save_button_class'];
-        $view->vars['file_upload_enabled'] = $options['enable_locale'];
-        $view->vars['remote_url_enabled'] = $options['enable_remote'];
-        $view->vars['rotation_enabled'] = $options['enable_rotation'];
+        $view->vars['file_upload_enabled'] = $options['file_upload_enabled'];
+        $view->vars['remote_url_enabled'] = $options['remote_url_enabled'];
+        $view->vars['rotation_enabled'] = $options['rotation_enabled'];
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
 
