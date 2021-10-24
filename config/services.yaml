@@ -1,0 +1,9 @@
+services:
+  presta_image_form_type_image:
+    class: 'Presta\ImageBundle\Form\Type\ImageType'
+    arguments:
+      - '@vich_uploader.storage'
+      - '@vich_uploader.upload_handler'
+    tags: ['form.type']
+
+  Presta\ImageBundle\Form\Type\ImageType: '@presta_image_form_type_image'

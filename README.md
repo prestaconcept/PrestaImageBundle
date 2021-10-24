@@ -1,25 +1,59 @@
 PrestaImageBundle
-===================
+=================
 
 [![Build Status](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/prestaconcept/PrestaImageBundle/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/presta/image-bundle/v/stable.png)](https://packagist.org/packages/presta/image-bundle)
 [![Total Downloads](https://poser.pugx.org/presta/image-bundle/downloads.png)](https://packagist.org/packages/presta/image-bundle)
 
-## Overview
+Overview
+--------
 
-PrestaImageBundle is a Symfony bundle providing tools to resize local/remote images before uploading them through a classic form.
+PrestaImageBundle is a Symfony bundle providing tools to resize uploaded and remote images before sending them through a classic form.
 It uses the [Cropper.js][1] library.
 
-## Installation
+Installation
+------------
 
-### Require the bundle as a Composer dependency
+Make sure Composer is installed globally, as explained in the
+[installation chapter](https://getcomposer.org/doc/00-intro.md)
+of the Composer documentation.
 
-```shell script
-composer require presta/image-bundle
+### Applications that use Symfony Flex
+
+Open a command console, enter your project directory and execute:
+
+```console
+$ composer require presta/image-bundle
 ```
 
-### Configure the bundle
+### Applications that don't use Symfony Flex
+
+#### Step 1: Download the Bundle
+
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
+
+```console
+$ composer require presta/image-bundle
+```
+
+#### Step 2: Enable the Bundle
+
+Then, enable the bundle by adding it to the list of registered bundles
+in the `config/bundles.php` file of your project:
+
+```php
+// config/bundles.php
+
+return [
+    // ...
+    Presta\ImageBundle\PrestaImageBundle::class => ['all' => true],
+];
+```
+
+Configuration
+-------------
 
 You must configure the `form_layout.html.twig` form theme into `config/packages/twig.yaml`.
 
@@ -40,7 +74,8 @@ presta_image:
 
 See VichUploader [documentation][2] to configure the bundle.
 
-### Install assets
+Assets
+------
 
 See Cropper.js [documentation][3] to install assets.
 
@@ -53,7 +88,8 @@ Don't forget to include the following assets in your page:
 
 - [Webpack Encore][4]
 
-## Usage
+Usage
+-----
 
 ### Initialize cropper
 
@@ -107,7 +143,8 @@ Bigger images (after cropping) are scaled down.
 **Security Note:** NEVER rely on this size constraints and the format settings as 
 they can easily be manipulated client side. ALWAYS validate the `image-data`, `image-size,` `image-format` server side! 
 
-## Contributing
+Contributing
+------------
 
 Pull requests are welcome.
 
@@ -125,5 +162,5 @@ Released under the MIT License
 [1]: https://github.com/fengyuanchen/cropperjs
 [2]: https://github.com/dustin10/VichUploaderBundle/blob/master/docs/usage.md
 [3]: https://github.com/fengyuanchen/cropperjs#getting-started
-[4]: https://github.com/prestaconcept/PrestaImageBundle/blob/master/Resources/doc/webpack.md
+[4]: https://github.com/prestaconcept/PrestaImageBundle/blob/master/docs/webpack.md
 [5]: https://github.com/fengyuanchen/cropperjs#options
