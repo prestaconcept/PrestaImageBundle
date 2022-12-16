@@ -10,6 +10,10 @@ trait Base64Helper
         $imageInfo = getimagesizefromstring($imageData);
         $mimeType = $imageInfo['mime'] ?? 'image/png';
 
+        if (false === strpos($mimeType, 'image/')) {
+            throw new \RuntimeException();
+        }
+
         $base64 = base64_encode($imageData);
 
         return "data:$mimeType;base64,$base64";
