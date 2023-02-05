@@ -14,7 +14,7 @@
     "require": {
         "php": "^7.1|^8.0",
         "symfony/form": "^4.4|^5.0|^6.0",
-        "vich/uploader-bundle": "^1.12"
+        "vich/uploader-bundle": "^1.0|^2.0"
     },
     "autoload": {
         "psr-4": {
