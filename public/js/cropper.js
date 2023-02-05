@@ -47,6 +47,10 @@ export default class {
     }
 
     initializeFileUploadEvents() {
+        if (!this.elements.form.widgets.fileUpload.button || !this.elements.form.widgets.fileUpload.input) {
+            return;
+        }
+
         // map virtual upload button to native input file element
         this.elements.form.widgets.fileUpload.button.addEventListener('click', () => {
             this.elements.form.widgets.fileUpload.input.click()
@@ -69,6 +73,14 @@ export default class {
     }
 
     initializeRemoteUrlEvents() {
+        if (
+          !this.elements.form.widgets.remoteUrl.button
+          || !this.elements.form.widgets.remoteUrl.input
+          || !this.elements.form.widgets.remoteUrl.loader
+        ) {
+            return;
+        }
+
         // handle distant image upload button state
         this.elements.form.widgets.remoteUrl.input.addEventListener('change', (event) => {
             const url = event.currentTarget.value
