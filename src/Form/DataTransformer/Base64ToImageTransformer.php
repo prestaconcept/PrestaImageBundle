@@ -22,23 +22,42 @@ class Base64ToImageTransformer implements DataTransformerInterface
 
     public function reverseTransform($value): ?UploadedFile
     {
-        if (!isset($value['base64']) || !$value['base64']) {
+        if (!\is_array($value) || !($value['base64'] ?? null)) {
             return null;
         }
 
-        $prefixLength = strpos($value['base64'], 'base64,') + 7;
+        $prefixLength = \strpos($value['base64'], 'base64,') + 7;
         $base64 = substr($value['base64'], $prefixLength);
 
-        $filePath = tempnam(sys_get_temp_dir(), 'UploadedFile');
-        $file = fopen($filePath, 'w');
+        $filepath = tempnam(sys_get_temp_dir(), 'UploadedFile');
+        if (!\is_string($filepath)) {
+            throw new \RuntimeException('Could not generate a valid temporary file path.');
+        }
+
+        $file = fopen($filepath, 'w');
+        if (!\is_resource($file)) {
+            throw new \RuntimeException("Could not open the \"$filepath\" file in \"w\" mode.");
+        }
+
         stream_filter_append($file, 'convert.base64-decode');
         fwrite($file, $base64);
+
         $metadata = stream_get_meta_data($file);
-        $path = $metadata['uri'];
+        $filename = $metadata['uri'];
+
         fclose($file);
-        $mimeType = mime_content_type($path);
+
+        if (!\is_string($filename)) {
+            throw new \RuntimeException('Could not get the generated file uri from metadata.');
+        }
+
+        $mimeType = mime_content_type($filename);
+        if (!\is_string($mimeType)) {
+            throw new \RuntimeException('Could not guess the image mime type.');
+        }
+
         $extension = str_replace('image/', '', $mimeType);
 
-        return new UploadedFile($path, uniqid() . '.' . $extension, $mimeType, null, true);
+        return new UploadedFile($filename, uniqid() . ".$extension", $mimeType, null, true);
     }
 }

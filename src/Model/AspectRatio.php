@@ -4,9 +4,9 @@ namespace Presta\ImageBundle\Model;
 
 class AspectRatio
 {
-    private $value;
-    private $label;
-    private $checked;
+    private ?float $value;
+    private string $label;
+    private bool $checked;
 
     public function __construct(?float $value, string $label, bool $checked = false)
     {

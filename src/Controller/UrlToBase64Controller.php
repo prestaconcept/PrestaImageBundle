@@ -12,8 +12,14 @@ class UrlToBase64Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        return new JsonResponse([
-            'base64' => $this->contentToBase64($request->request->get('url')),
-        ]);
+        if (!$request->request->has('url')) {
+            throw new \RuntimeException('Parameter "url" is required.');
+        }
+
+        return new JsonResponse(
+            [
+                'base64' => $this->contentToBase64($request->request->getAlpha('url')),
+            ]
+        );
     }
 }
