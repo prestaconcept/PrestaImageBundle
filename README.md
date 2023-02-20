@@ -1,7 +1,9 @@
 PrestaImageBundle
 =================
 
-![quality](https://github.com/prestaconcept/PrestaImageBundle/actions/workflows/quality.yml/badge.svg)
+![tests](https://github.com/prestaconcept/PrestaImagebundle/actions/workflows/tests.yml/badge.svg)
+![quality](https://github.com/prestaconcept/PrestaImagebundle/actions/workflows/quality.yml/badge.svg)
+[![codecov](https://codecov.io/gh/prestaconcept/PrestaImagebundle/branch/4.x/graph/badge.svg?token=ls4VjT51Pi)](https://codecov.io/gh/prestaconcept/PrestaImagebundle)
 [![Latest Stable Version](https://poser.pugx.org/presta/image-bundle/v/stable.png)](https://packagist.org/packages/presta/image-bundle)
 [![Total Downloads](https://poser.pugx.org/presta/image-bundle/downloads.png)](https://packagist.org/packages/presta/image-bundle)
 

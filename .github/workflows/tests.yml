@@ -1,0 +1,60 @@
+name: 'Tests'
+
+on:
+  push:
+    branches: ['*']
+
+jobs:
+  unit:
+    name: 'Unit tests'
+    runs-on: 'ubuntu-latest'
+    env:
+      SYMFONY_REQUIRE: '${{matrix.symfony-require}}'
+
+    strategy:
+      matrix:
+        php-version: ['7.4', '8.0', '8.1', '8.2']
+        symfony-require: ['5.4.*', '6.0.*', '6.1.*', '6.2.*']
+
+    steps:
+      - name: 'Setup PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '${{ matrix.php-version }}'
+          coverage: 'none'
+
+      - name: 'Checkout sources'
+        uses: 'actions/checkout@v3'
+
+      - name: 'Install dependencies'
+        run: 'composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist'
+
+      - name: 'Execute Unit tests'
+        run: 'vendor/bin/phpunit'
+
+  coverage:
+    name: 'Code coverage'
+    runs-on: 'ubuntu-latest'
+    env:
+      SYMFONY_REQUIRE: '6.2.*'
+
+    steps:
+      - name: 'Setup PHP'
+        uses: 'shivammathur/setup-php@v2'
+        with:
+          php-version: '8.2'
+          coverage: 'pcov'
+
+      - name: 'Checkout sources'
+        uses: 'actions/checkout@v3'
+
+      - name: 'Install dependencies'
+        run: 'composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist'
+
+      - name: 'Execute Unit tests'
+        run: 'vendor/bin/phpunit --coverage-clover=coverage.xml'
+
+      - name: 'Upload coverage file'
+        uses: 'codecov/codecov-action@v3'
+        with:
+          files: 'coverage.xml'

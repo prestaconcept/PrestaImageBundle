@@ -31,12 +31,16 @@ class Base64ToImageTransformer implements DataTransformerInterface
 
         $filepath = tempnam(sys_get_temp_dir(), 'UploadedFile');
         if (!\is_string($filepath)) {
+            // @codeCoverageIgnoreStart
             throw new \RuntimeException('Could not generate a valid temporary file path.');
+            // @codeCoverageIgnoreEnd
         }
 
         $file = fopen($filepath, 'w');
         if (!\is_resource($file)) {
+            // @codeCoverageIgnoreStart
             throw new \RuntimeException("Could not open the \"$filepath\" file in \"w\" mode.");
+            // @codeCoverageIgnoreEnd
         }
 
         stream_filter_append($file, 'convert.base64-decode');
@@ -48,12 +52,16 @@ class Base64ToImageTransformer implements DataTransformerInterface
         fclose($file);
 
         if (!\is_string($filename)) {
+            // @codeCoverageIgnoreStart
             throw new \RuntimeException('Could not get the generated file uri from metadata.');
+            // @codeCoverageIgnoreEnd
         }
 
         $mimeType = mime_content_type($filename);
         if (!\is_string($mimeType)) {
+            // @codeCoverageIgnoreStart
             throw new \RuntimeException('Could not guess the image mime type.');
+            // @codeCoverageIgnoreEnd
         }
 
         $extension = str_replace('image/', '', $mimeType);
