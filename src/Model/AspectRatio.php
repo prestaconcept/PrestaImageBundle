@@ -15,16 +15,25 @@ class AspectRatio
         $this->checked = $checked;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getValue(): ?float
     {
         return $this->value;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getLabel(): string
     {
         return $this->label;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function isChecked(): bool
     {
         return $this->checked;

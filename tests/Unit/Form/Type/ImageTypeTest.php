@@ -17,10 +17,12 @@ final class ImageTypeTest extends ImageTypeTestCase
      */
     public function testShouldHaveADeleteCheckboxIfCreated(bool $allowDelete, bool $required): void
     {
-        $this->storage->method('resolvePath')->willReturn('/tmp/foo.png');
-
+        $data = Book::illustrated('foo.png');
         $options = ['allow_delete' => $allowDelete, 'required' => $required];
-        $data = Book::withoutFile();
+
+        \assert(null !== $data->image);
+
+        $this->storage->method('resolvePath')->willReturn($data->image->getPathname());
 
         $form = $this->factory->create(FormType::class, $data)->add('image', ImageType::class, $options);
 
@@ -72,14 +74,16 @@ final class ImageTypeTest extends ImageTypeTestCase
      */
     public function testShouldRemoveTheFileFromTheFilesystemIfCreated(bool $allowDelete, bool $required): void
     {
+        $data = Book::illustrated('foo.png');
         $options = ['allow_delete' => $allowDelete, 'required' => $required];
-        $data = Book::withFile('/tmp/foo.png');
+
+        \assert(null !== $data->image);
 
         $this->storage
             ->expects($this->once())
             ->method('resolvePath')
             ->with($data, 'image')
-            ->willReturn($data->imageName)
+            ->willReturn($data->image->getPathname())
         ;
 
         $this->storage
@@ -109,6 +113,57 @@ final class ImageTypeTest extends ImageTypeTestCase
         $this->assertTrue($form->isSynchronized());
     }
 
+    /**
+     * @dataProvider downloadableConfig
+     */
+    public function testShouldAddDownloadUriToTheViewVars(Book $data, bool $downloadLink): void
+    {
+        \assert(null !== $data->imageName);
+
+        $expected = "/book/$data->imageName";
+        $options = ['download_link' => $downloadLink];
+
+        $form = $this->factory
+            ->create(FormType::class, $data)
+            ->add('image', ImageType::class, $options)
+        ;
+
+        $this->storage
+            ->expects($this->once())
+            ->method('resolveUri')
+            ->with($data, 'image')
+            ->willReturn($expected)
+        ;
+
+        $view = $form->createView();
+
+        self::assertArrayHasKey('download_uri', $view->children['image']->vars);
+        self::assertSame($expected, $view->children['image']->vars['download_uri']);
+    }
+
+    /**
+     * @dataProvider notDownloadableConfig
+     */
+    public function testShouldNotAddDownloadUriToTheViewVars(?Book $data, array $options): void
+    {
+        $this->storage->expects($this->never())->method('resolveUri');
+
+        $form = $this->factory->create(FormType::class, $data)->add('image', ImageType::class, $options);
+
+        $view = $form->createView();
+
+        self::assertArrayNotHasKey('download_uri', $view->children['image']->vars);
+    }
+
+    public function testShouldCauseAnExceptionIfCreatedAsRootForm(): void
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $form = $this->factory->create(ImageType::class);
+
+        $form->createView();
+    }
+
     public function deletableOptions(): iterable
     {
         yield 'option "allow_delete" set to true and option "required" set to false' => [true, false];
@@ -119,5 +174,19 @@ final class ImageTypeTest extends ImageTypeTestCase
         yield 'option "allow_delete" set to false and option "required" set to false' => [false, false];
         yield 'option "allow_delete" set to false and option "required" set to true' => [false, true];
         yield 'option "allow_delete" set to true and option "required" set to true' => [true, true];
+    }
+
+    public function downloadableConfig(): iterable
+    {
+        yield 'the "download_link" option set to true when created with an object related to an existing file' => [
+            Book::illustrated('foo.png'),
+            true,
+        ];
+    }
+
+    public function notDownloadableConfig(): iterable
+    {
+        yield 'no data (null)' => [null, self::ALLOW_DELETE_OPTIONS];
+        yield 'no download link' => [Book::illustrated('foo.png'), ['download_link' => false]];
     }
 }

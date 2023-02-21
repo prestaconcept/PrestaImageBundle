@@ -20,11 +20,13 @@ final class DeleteFileListenerTest extends ImageTypeTestCase
      */
     public function testShouldTriggerRemovingTheFileFromTheFilesystemIfSubmitted(Book $data, bool $delete): void
     {
+        \assert(null !== $data->image);
+
         $this->storage
             ->expects($this->once())
             ->method('resolvePath')
             ->with($data, 'image')
-            ->willReturn($data->imageName)
+            ->willReturn($data->image->getPathname())
         ;
 
         $this->storage
@@ -92,7 +94,7 @@ final class DeleteFileListenerTest extends ImageTypeTestCase
     public function deletableConfig(): iterable
     {
         yield 'the "delete" checkbox checked when created with an object related to an existing file' => [
-            Book::withFile('/tmp/foo.png'),
+            Book::illustrated('foo.png'),
             true,
         ];
     }
@@ -100,7 +102,7 @@ final class DeleteFileListenerTest extends ImageTypeTestCase
     public function notDeletableConfig(): iterable
     {
         yield 'no data (null)' => [null, self::ALLOW_DELETE_OPTIONS];
-        yield 'no "delete" checkbox' => [Book::withoutFile(), ['allow_delete' => false]];
-        yield 'the "delete" checkbox not checked' => [Book::withoutFile(), self::ALLOW_DELETE_OPTIONS, false];
+        yield 'no "delete" checkbox' => [Book::illustrated('foo.png'), ['allow_delete' => false]];
+        yield 'the "delete" checkbox not checked' => [Book::illustrated('foo.png'), self::ALLOW_DELETE_OPTIONS, false];
     }
 }

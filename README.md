@@ -70,7 +70,7 @@ You must include the routing into `config/routes.yaml`:
 
 ```yaml
 presta_image:
-    resource: "@PrestaImageBundle/Resources/config/routing.yaml"
+    resource: "@PrestaImageBundle/config/routing.yaml"
 ```
 
 See VichUploader [documentation][2] to configure the bundle.
@@ -82,8 +82,8 @@ See Cropper.js [documentation][3] to install assets.
 
 Don't forget to include the following assets in your page:
 
-- `@PrestaImageBundle/Resources/public/css/cropper.css`
-- `@PrestaImageBundle/Resources/public/js/cropper.js`
+- `@PrestaImageBundle/public/css/cropper.css`
+- `@PrestaImageBundle/public/js/cropper.js`
 
 ### How to: implementation examples
 

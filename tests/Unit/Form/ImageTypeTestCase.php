@@ -22,6 +22,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 abstract class ImageTypeTestCase extends TypeTestCase
 {
     protected const ALLOW_DELETE_OPTIONS = ['allow_delete' => true, 'required' => false];
+    protected const ALLOW_DOWNLOAD_OPTIONS = ['download_link' => true];
 
     /**
      * @var MockObject&StorageInterface

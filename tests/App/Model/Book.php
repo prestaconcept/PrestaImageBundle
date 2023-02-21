@@ -15,14 +15,15 @@ final class Book
     {
     }
 
-    public static function withoutFile(): self
+    public static function empty(): self
     {
         return new self();
     }
 
-    public static function withFile(string $imageName): self
+    public static function illustrated(string $imageName): self
     {
         $book = new self();
+        $book->image = new File("/tmp/$imageName", false);
         $book->imageName = $imageName;
 
         return $book;

@@ -178,7 +178,7 @@ class ImageType extends AbstractType
     {
         $parent = $form->getParent();
         if (null === $parent) {
-            return null;
+            throw new \RuntimeException(get_class($form) . ' should not be used as root form.');
         }
 
         $data = $parent->getData();
@@ -186,9 +186,7 @@ class ImageType extends AbstractType
             return null;
         }
 
-        if (!\is_array($data) && !\is_object($data)) {
-            throw new UnexpectedTypeException($data, 'array|object');
-        }
+        \assert(\is_array($data) || \is_object($data));
 
         return $this->storage->resolveUri($data, $form->getName());
     }

@@ -19,11 +19,13 @@ final class AddDeleteCheckboxListenerTest extends ImageTypeTestCase
      */
     public function testAnImageTypeChildShouldHaveADeleteCheckboxIfCreated(Book $data): void
     {
+        \assert(null !== $data->image);
+
         $this->storage
             ->expects($this->once())
             ->method('resolvePath')
             ->with($data, 'image')
-            ->willReturn('/tmp/foo.png')
+            ->willReturn($data->image->getPathname())
         ;
 
         $form = $this->factory->create(FormType::class, $data)->add('image', ImageType::class);
@@ -73,12 +75,12 @@ final class AddDeleteCheckboxListenerTest extends ImageTypeTestCase
 
     public function deletableData(): iterable
     {
-        yield 'an object related to a file stored on the filesystem' => [Book::withoutFile()];
+        yield 'an object related to a file stored on the filesystem' => [Book::illustrated('foo.png')];
     }
 
     public function notDeletableData(): iterable
     {
         yield 'no data (null)' => [null];
-        yield 'an object not related to a file stored on the filesystem' => [Book::withoutFile()];
+        yield 'an object not related to a file stored on the filesystem' => [Book::empty()];
     }
 }

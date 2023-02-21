@@ -2,6 +2,7 @@
 
 namespace Presta\ImageBundle\Controller;
 
+use Presta\ImageBundle\Exception\UnexpectedTypeException;
 use Presta\ImageBundle\Helper\Base64Helper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +17,11 @@ class UrlToBase64Controller
             throw new \RuntimeException('Parameter "url" is required.');
         }
 
-        return new JsonResponse(
-            [
-                'base64' => $this->contentToBase64($request->request->getAlpha('url')),
-            ]
-        );
+        $url = $request->request->get('url');
+        if (!\is_string($url)) {
+            throw new UnexpectedTypeException($url, 'string');
+        }
+
+        return new JsonResponse(['base64' => $this->contentToBase64($url)]);
     }
 }
