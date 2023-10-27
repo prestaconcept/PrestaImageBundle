@@ -125,8 +125,17 @@ class ImageType extends AbstractType
             ->setDefault('download_uri', null)
             ->setAllowedTypes('download_uri', ['string', 'null'])
 
+            ->setDefault('show_image', null)
+            ->setAllowedTypes('show_image', ['bool', 'null'])
+
             ->setDefault('download_link', true)
             ->setAllowedTypes('download_link', ['bool'])
+            ->setDeprecated(
+                'download_link',
+                'presta/image-bundle',
+                '2.6.0',
+                'The option "download_link" is deprecated, use "show_image" instead.',
+            )
 
             ->setDefault('file_upload_enabled', true)
             ->setAllowedTypes('file_upload_enabled', ['bool'])
@@ -169,7 +178,8 @@ class ImageType extends AbstractType
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
 
-        if ($options['download_link'] && $downloadUri = $options['download_uri'] ?? $this->generateDownloadUri($form)) {
+        $showImage = $options['show_image'] ?? $options['download_link'];
+        if ($showImage && $downloadUri = $options['download_uri'] ?? $this->generateDownloadUri($form)) {
             $view->vars['download_uri'] = $downloadUri;
         }
     }

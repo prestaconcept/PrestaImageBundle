@@ -127,7 +127,8 @@ Available options for the `ImageType`:
 - `cancel_button_class` (`string`): class of the button (default: `''`)
 - `save_button_class` (`string`): class of the button (default: `''`)
 - `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
-- `download_link` (`bool`): whether the image should be rendered in the form or not (default: `true`)
+- `show_image` (`bool`): whether the image should be rendered in the form or not (default: `null`, will default to `true` in next major)
+- ~~`download_link` (`bool`): whether the image should be rendered in the form or not (default: `true`)~~ **Deprecated, will be removed (replaced by `show_image`) in next major**
 - `file_upload_enabled` (`bool`): whether to enable the file upload widget or not (default: `true`)
 - `remote_url_enabled` (`bool`): whether to enable the remote url widget or not (default: `true`)
 - `rotation_enabled` (`bool`): whether to enable the rotation or not (default: `false`)
