@@ -123,9 +123,9 @@ Available options for the `ImageType`:
 - `max_height` (`int`): the max height of the cropped image send to server (default: `180`)
 - `preview_width` (`string`): the max width to use when displaying the image preview - can be in px, % or other css value (default: `'320px'`)
 - `preview_height` (`string`): the max height to use when displaying the image preview - can be in px, % or other css value (default: `'180px'`)
-- `upload_button_class` (`string`): class of the button (default: `''`)
-- `cancel_button_class` (`string`): class of the button (default: `''`)
-- `save_button_class` (`string`): class of the button (default: `''`)
+- `upload_button_class` (`string`): CSS class of the "upload" button (default: `''`)
+- `cancel_button_class` (`string`): CSS class of the "cancel" button (default: `''`)
+- `save_button_class` (`string`): CSS class of the "save" button (default: `''`)
 - `download_uri` (`string`): the path where the image is located (default: `null`, automatically set)
 - `show_image` (`bool`): whether the image should be rendered in the form or not (default: `null`, will default to `true` in next major)
 - ~~`download_link` (`bool`): whether the image should be rendered in the form or not (default: `true`)~~ **Deprecated, will be removed (replaced by `show_image`) in next major**
