@@ -2,7 +2,6 @@
 
 namespace Presta\ImageBundle\Form\Type;
 
-use Presta\ImageBundle\Exception\UnexpectedTypeException;
 use Presta\ImageBundle\Form\DataTransformer\Base64ToImageTransformer;
 use Presta\ImageBundle\Form\EventListener\ImageType\AddDeleteCheckboxListener;
 use Presta\ImageBundle\Form\EventListener\ImageType\ClearBase64OnDeleteListener;
