@@ -169,7 +169,7 @@ class ImageType extends AbstractType
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
 
-        if ($options['download_link'] && $downloadUri = $this->generateDownloadUri($form)) {
+        if ($options['download_link'] && $downloadUri = $options['download_uri'] ?? $this->generateDownloadUri($form)) {
             $view->vars['download_uri'] = $downloadUri;
         }
     }
