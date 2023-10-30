@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingFactory constructor invoked with 2 parameters, 3\\-4 required\\.$#"
+			count: 1
+			path: tests/Unit/Form/ImageTypeTestCase.php
+			reportUnmatched: false
+
+		-
+			message: "#^Parameter \\#1 \\$container of class Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingFactory constructor expects Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface, Vich\\\\UploaderBundle\\\\Metadata\\\\MetadataReader given\\.$#"
+			count: 1
+			path: tests/Unit/Form/ImageTypeTestCase.php
+			reportUnmatched: false
+
+		-
+			message: "#^Parameter \\#2 \\$metadata of class Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingFactory constructor expects Vich\\\\UploaderBundle\\\\Metadata\\\\MetadataReader, Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingResolver given\\.$#"
+			count: 1
+			path: tests/Unit/Form/ImageTypeTestCase.php
+			reportUnmatched: false
+
+		-
+			message: "#^Class Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingFactory constructor invoked with 3 parameters, 2 required\\.$#"
+			count: 1
+			path: tests/Unit/Form/ImageTypeTestCase.php
+			reportUnmatched: false
+
+		-
+			message: "#^Parameter \\#1 \\$metadata of class Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingFactory constructor expects Vich\\\\UploaderBundle\\\\Metadata\\\\MetadataReader, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface given\\.$#"
+			count: 1
+			path: tests/Unit/Form/ImageTypeTestCase.php
+			reportUnmatched: false
+
+		-
+			message: "#^Parameter \\#2 \\$resolver of class Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingFactory constructor expects Vich\\\\UploaderBundle\\\\Mapping\\\\PropertyMappingResolverInterface, Vich\\\\UploaderBundle\\\\Metadata\\\\MetadataReader given\\.$#"
+			count: 1
+			path: tests/Unit/Form/ImageTypeTestCase.php
+			reportUnmatched: false

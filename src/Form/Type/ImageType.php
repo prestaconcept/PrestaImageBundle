@@ -2,7 +2,6 @@
 
 namespace Presta\ImageBundle\Form\Type;
 
-use Presta\ImageBundle\Exception\UnexpectedTypeException;
 use Presta\ImageBundle\Form\DataTransformer\Base64ToImageTransformer;
 use Presta\ImageBundle\Form\EventListener\ImageType\AddDeleteCheckboxListener;
 use Presta\ImageBundle\Form\EventListener\ImageType\ClearBase64OnDeleteListener;
@@ -83,15 +82,19 @@ class ImageType extends AbstractType
                 ]
             )
             ->setAllowedTypes('aspect_ratios', ['array'])
+            ->setInfo('aspect_ratios', 'A list of aspect ratio to apply when resizing an image.')
 
             ->setDefault('cropper_options', ['autoCropArea' => 1])
             ->setAllowedTypes('cropper_options', ['array'])
+            ->setInfo('cropper_options', 'A list of options supported by cropper.')
 
             ->setDefault('max_width', 320)
             ->setAllowedTypes('max_width', ['int'])
+            ->setInfo('max_width', 'The max width of the cropped image send to server.')
 
             ->setDefault('max_height', 180)
             ->setAllowedTypes('max_height', ['int'])
+            ->setInfo('max_height', 'The max height of the cropped image send to server.')
 
             ->setDefault(
                 'preview_width',
@@ -102,6 +105,10 @@ class ImageType extends AbstractType
                 }
             )
             ->setAllowedTypes('preview_width', ['string'])
+            ->setInfo(
+                'preview_width',
+                'The max width to use when displaying the image preview. Can be in px, % or other css value.'
+            )
 
             ->setDefault(
                 'preview_height',
@@ -112,40 +119,68 @@ class ImageType extends AbstractType
                 }
             )
             ->setAllowedTypes('preview_height', ['string'])
+            ->setInfo(
+                'preview_height',
+                'The max height to use when displaying the image preview. Can be in px, % or other css value.'
+            )
 
             ->setDefault('upload_button_class', '')
             ->setAllowedTypes('upload_button_class', ['string'])
+            ->setInfo('upload_button_class', 'CSS class of the "upload" button.')
 
             ->setDefault('cancel_button_class', '')
             ->setAllowedTypes('cancel_button_class', ['string'])
+            ->setInfo('cancel_button_class', 'CSS class of the "cancel" button.')
 
             ->setDefault('save_button_class', '')
             ->setAllowedTypes('save_button_class', ['string'])
+            ->setInfo('save_button_class', 'CSS class of the "save" button.')
 
             ->setDefault('download_uri', null)
             ->setAllowedTypes('download_uri', ['string', 'null'])
+            ->setInfo('download_uri', 'The path where the image is located.')
+
+            ->setDefault('show_image', null)
+            ->setAllowedTypes('show_image', ['bool', 'null'])
+            ->setInfo('show_image', 'Whether the image should be rendered in the form or not.')
 
             ->setDefault('download_link', true)
             ->setAllowedTypes('download_link', ['bool'])
+            ->setInfo('download_link', 'Whether the image should be rendered in the form or not.')
+            ->setDeprecated(
+                'download_link',
+                'presta/image-bundle',
+                '2.6.0',
+                'The option "download_link" is deprecated, use "show_image" instead.',
+            )
 
             ->setDefault('file_upload_enabled', true)
             ->setAllowedTypes('file_upload_enabled', ['bool'])
+            ->setInfo('file_upload_enabled', 'Whether to enable the file upload widget or not.')
 
             ->setDefault('remote_url_enabled', true)
             ->setAllowedTypes('remote_url_enabled', ['bool'])
+            ->setInfo('remote_url_enabled', 'Whether to enable the remote url widget or not.')
 
             ->setDefault('rotation_enabled', false)
             ->setAllowedTypes('rotation_enabled', ['bool'])
+            ->setInfo('rotation_enabled', 'Whether to enable the rotation or not.')
 
             ->setDefault('translation_domain', 'PrestaImageBundle')
             ->setAllowedTypes('translation_domain', ['string'])
 
             ->setDefault('upload_mimetype', 'image/png')
             ->setAllowedTypes('upload_mimetype', ['string'])
+            ->setInfo(
+                'upload_mimetype',
+                'Format of the image to be uploaded. Note: If the chosen mimetype is not supported by the browser, '
+                    . 'it will silently fall back to `image/png`.'
+            )
 
             // default value: https://developer.mozilla.org/de/docs/Web/API/HTMLCanvasElement/toDataURL
             ->setDefault('upload_quality', 0.92)
             ->setAllowedTypes('upload_quality', ['float'])
+            ->setInfo('upload_quality', 'Quality (0..1) of uploaded image for lossy imageformats (eg. `image/jpeg`).')
 
             ->setDefault('error_bubbling', false)
             ->setAllowedTypes('error_bubbling', ['bool'])
@@ -169,7 +204,8 @@ class ImageType extends AbstractType
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
 
-        if ($options['download_link'] && $downloadUri = $this->generateDownloadUri($form)) {
+        $showImage = $options['show_image'] ?? $options['download_link'];
+        if ($showImage && $downloadUri = $options['download_uri'] ?? $this->generateDownloadUri($form)) {
             $view->vars['download_uri'] = $downloadUri;
         }
     }

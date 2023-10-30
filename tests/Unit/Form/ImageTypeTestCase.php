@@ -15,6 +15,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Vich\UploaderBundle\Handler\UploadHandler;
 use Vich\UploaderBundle\Injector\FileInjectorInterface;
 use Vich\UploaderBundle\Mapping\PropertyMappingFactory;
+use Vich\UploaderBundle\Mapping\PropertyMappingResolver;
 use Vich\UploaderBundle\Metadata\ClassMetadata;
 use Vich\UploaderBundle\Metadata\MetadataReader;
 use Vich\UploaderBundle\Storage\StorageInterface;
@@ -79,15 +80,19 @@ abstract class ImageTypeTestCase extends TypeTestCase
 
     protected function createUploadHandler(): UploadHandler
     {
-        return new UploadHandler(
-            new PropertyMappingFactory(
+        if (\class_exists('Vich\UploaderBundle\Mapping\PropertyMappingResolver')) {
+            $factory = new PropertyMappingFactory(
+                new MetadataReader($this->advancedMetadataFactory),
+                new PropertyMappingResolver($this->container, ['default' => []])
+            );
+        } else {
+            $factory = new PropertyMappingFactory(
                 $this->container,
                 new MetadataReader($this->advancedMetadataFactory),
                 ['default' => []]
-            ),
-            $this->storage,
-            $this->fileInjector,
-            $this->eventDispatcher
-        );
+            );
+        }
+
+        return new UploadHandler($factory, $this->storage, $this->fileInjector, $this->eventDispatcher);
     }
 }
