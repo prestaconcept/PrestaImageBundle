@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         php-version: ['8.1', '8.2', '8.3']
-        symfony-require: ['5.4.*', '6.0.*', '6.1.*', '6.2.*', '6.3.*']
+        symfony-require: ['5.4.*', '6.4.*', '7.0.*']
 
     steps:
       - name: 'Setup PHP'
@@ -36,7 +36,7 @@ jobs:
     name: 'Code coverage'
     runs-on: 'ubuntu-latest'
     env:
-      SYMFONY_REQUIRE: '6.3.*'
+      SYMFONY_REQUIRE: '7.0.*'
 
     steps:
       - name: 'Setup PHP'

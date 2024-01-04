@@ -14,8 +14,8 @@
         "php": "^8.1",
         "ext-fileinfo": "*",
         "ext-json": "*",
-        "symfony/form": "^5.4|^6.0",
-        "vich/uploader-bundle": "^1.0|^2.0"
+        "symfony/form": "^5.4|^6.4|^7.0",
+        "vich/uploader-bundle": "^2.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.9",
