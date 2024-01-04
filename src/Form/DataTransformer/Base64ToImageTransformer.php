@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Presta\ImageBundle\Form\DataTransformer;
 
 use Presta\ImageBundle\Helper\Base64Helper;

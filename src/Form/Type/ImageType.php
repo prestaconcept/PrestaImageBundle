@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Presta\ImageBundle\Form\Type;
 
 use Presta\ImageBundle\Form\DataTransformer\Base64ToImageTransformer;
@@ -140,19 +142,9 @@ class ImageType extends AbstractType
             ->setAllowedTypes('download_uri', ['string', 'null'])
             ->setInfo('download_uri', 'The path where the image is located.')
 
-            ->setDefault('show_image', null)
-            ->setAllowedTypes('show_image', ['bool', 'null'])
+            ->setDefault('show_image', true)
+            ->setAllowedTypes('show_image', ['bool'])
             ->setInfo('show_image', 'Whether the image should be rendered in the form or not.')
-
-            ->setDefault('download_link', true)
-            ->setAllowedTypes('download_link', ['bool'])
-            ->setInfo('download_link', 'Whether the image should be rendered in the form or not.')
-            ->setDeprecated(
-                'download_link',
-                'presta/image-bundle',
-                '2.6.0',
-                'The option "download_link" is deprecated, use "show_image" instead.',
-            )
 
             ->setDefault('file_upload_enabled', true)
             ->setAllowedTypes('file_upload_enabled', ['bool'])
@@ -204,8 +196,7 @@ class ImageType extends AbstractType
         $view->vars['upload_mimetype'] = $options['upload_mimetype'];
         $view->vars['upload_quality'] = $options['upload_quality'];
 
-        $showImage = $options['show_image'] ?? $options['download_link'];
-        if ($showImage && $downloadUri = $options['download_uri'] ?? $this->generateDownloadUri($form)) {
+        if ($options['show_image'] && $downloadUri = $options['download_uri'] ?? $this->generateDownloadUri($form)) {
             $view->vars['download_uri'] = $downloadUri;
         }
     }

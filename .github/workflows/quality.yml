@@ -1,20 +1,19 @@
 name: 'Quality'
 
 on:
-  push:
-    branches: ['*']
+  push
 
 jobs:
-  phpcs:
-    name: 'PHP CodeSniffer'
+  ecs:
+    name: 'Easy Coding Standard'
     runs-on: 'ubuntu-latest'
     env:
       SYMFONY_REQUIRE: '${{matrix.symfony-require}}'
 
     strategy:
       matrix:
-        php-version: ['7.4', '8.0', '8.1', '8.2']
-        symfony-require: ['5.4.*', '6.0.*', '6.1.*', '6.2.*', '6.3.*']
+        php-version: ['8.1', '8.2', '8.3']
+        symfony-require: ['5.4.*', '6.4.*', '7.0.*']
 
     steps:
       - name: 'Setup PHP'
@@ -29,8 +28,8 @@ jobs:
       - name: 'Install dependencies'
         run: 'composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist'
 
-      - name: 'Execute PHP CodeSniffer'
-        run: 'vendor/bin/phpcs -p'
+      - name: 'Execute Easy Coding Standard'
+        run: 'vendor/bin/ecs'
 
   phpstan:
     name: 'PHPStan'
@@ -40,8 +39,8 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['7.4', '8.0', '8.1', '8.2']
-        symfony-require: ['5.4.*', '6.0.*', '6.1.*', '6.2.*', '6.3.*']
+        php-version: ['8.1', '8.2', '8.3']
+        symfony-require: ['5.4.*', '6.4.*', '7.0.*']
 
     steps:
       - name: 'Setup PHP'

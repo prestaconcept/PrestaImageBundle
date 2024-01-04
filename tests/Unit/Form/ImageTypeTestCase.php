@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 abstract class ImageTypeTestCase extends TypeTestCase
 {
     protected const ALLOW_DELETE_OPTIONS = ['allow_delete' => true, 'required' => false];
-    protected const ALLOW_DOWNLOAD_OPTIONS = ['download_link' => true];
+    protected const ALLOW_DOWNLOAD_OPTIONS = ['show_image' => true];
 
     /**
      * @var MockObject&StorageInterface
@@ -73,9 +73,7 @@ abstract class ImageTypeTestCase extends TypeTestCase
     {
         $type = new ImageType($this->storage, $this->createUploadHandler());
 
-        return [
-            new PreloadedExtension([$type], []),
-        ];
+        return [new PreloadedExtension([$type], [])];
     }
 
     protected function createUploadHandler(): UploadHandler
