@@ -1,3 +1,4 @@
+/.task/
 /docker/
 /var/
 /vendor/
@@ -5,3 +6,4 @@
 /.phpunit.result.cache
 /composer.lock
 /Makefile
+/Taskfile.yaml
