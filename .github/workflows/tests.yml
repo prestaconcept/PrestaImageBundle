@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['7.4', '8.0', '8.1', '8.2']
+        php-version: ['8.1', '8.2', '8.3']
         symfony-require: ['5.4.*', '6.0.*', '6.1.*', '6.2.*', '6.3.*']
 
     steps:
@@ -42,7 +42,7 @@ jobs:
       - name: 'Setup PHP'
         uses: 'shivammathur/setup-php@v2'
         with:
-          php-version: '8.2'
+          php-version: '8.3'
           coverage: 'pcov'
 
       - name: 'Checkout sources'
