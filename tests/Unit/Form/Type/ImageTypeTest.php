@@ -116,12 +116,12 @@ final class ImageTypeTest extends ImageTypeTestCase
     /**
      * @dataProvider downloadableConfig
      */
-    public function testShouldAddDownloadUriToTheViewVars(Book $data, bool $downloadLink): void
+    public function testShouldAddDownloadUriToTheViewVars(Book $data, bool $showImage): void
     {
         \assert(null !== $data->imageName);
 
         $expected = "/book/$data->imageName";
-        $options = ['download_link' => $downloadLink];
+        $options = ['show_image' => $showImage];
 
         $form = $this->factory
             ->create(FormType::class, $data)
@@ -178,7 +178,7 @@ final class ImageTypeTest extends ImageTypeTestCase
 
     public function downloadableConfig(): iterable
     {
-        yield 'the "download_link" option set to true when created with an object related to an existing file' => [
+        yield 'the "show_image" option set to true when created with an object related to an existing file' => [
             Book::illustrated('foo.png'),
             true,
         ];
@@ -187,6 +187,6 @@ final class ImageTypeTest extends ImageTypeTestCase
     public function notDownloadableConfig(): iterable
     {
         yield 'no data (null)' => [null, self::ALLOW_DELETE_OPTIONS];
-        yield 'no download link' => [Book::illustrated('foo.png'), ['download_link' => false]];
+        yield 'no download uri' => [Book::illustrated('foo.png'), ['show_image' => false]];
     }
 }
