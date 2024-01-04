@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Presta\ImageBundle\Controller;
 
 use Presta\ImageBundle\Exception\UnexpectedTypeException;

@@ -73,9 +73,7 @@ abstract class ImageTypeTestCase extends TypeTestCase
     {
         $type = new ImageType($this->storage, $this->createUploadHandler());
 
-        return [
-            new PreloadedExtension([$type], []),
-        ];
+        return [new PreloadedExtension([$type], [])];
     }
 
     protected function createUploadHandler(): UploadHandler

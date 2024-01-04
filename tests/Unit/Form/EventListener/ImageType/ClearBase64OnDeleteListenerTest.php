@@ -66,9 +66,7 @@ final class ClearBase64OnDeleteListenerTest extends ImageTypeTestCase
 
     public function notDeletableSubmittedData(): iterable
     {
-        yield 'no "delete" checkbox data' => [
-            [],
-        ];
+        yield 'no "delete" checkbox data' => [[]];
         yield 'the "delete" checkbox not checked' => [
             ['delete' => false],
         ];

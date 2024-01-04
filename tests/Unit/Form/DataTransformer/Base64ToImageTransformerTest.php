@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Presta\ImageBundle\Tests\Unit\Form\DataTransformer;
 
-use Presta\ImageBundle\Form\DataTransformer\Base64ToImageTransformer;
 use PHPUnit\Framework\TestCase;
+use Presta\ImageBundle\Form\DataTransformer\Base64ToImageTransformer;
 use Symfony\Component\HttpFoundation\File\File;
 
 final class Base64ToImageTransformerTest extends TestCase
@@ -61,13 +61,14 @@ final class Base64ToImageTransformerTest extends TestCase
 
     public function invalidOriginalValues(): iterable
     {
+        $fileClass = File::class;
+
         yield 'an empty value (null) should return an empty (null) base64' => [['base64' => null], null];
-        yield 'a value different from '
-            . File::class
-            . ' should return an empty (null) base64' => [['base64' => null], new \stdClass()];
-        yield 'a '
-            . File::class
-            . ' object not related to a file on the filesystem should return an empty (null) base64' => [
+        yield "a value different from $fileClass should return an empty (null) base64" => [
+            ['base64' => null],
+            new \stdClass(),
+        ];
+        yield "a $fileClass object not related to a file on the filesystem should return an empty (null) base64" => [
             ['base64' => null],
             new File('/tmp/foo.png', false),
         ];
