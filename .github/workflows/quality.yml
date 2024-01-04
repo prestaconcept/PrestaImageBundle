@@ -1,8 +1,7 @@
 name: 'Quality'
 
 on:
-  push:
-    branches: ['*']
+  push
 
 jobs:
   ecs:
