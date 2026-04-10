@@ -9,10 +9,17 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @phpstan-type Base64Array array{base64: string|null}
+ * @implements DataTransformerInterface<File, Base64Array>
+ */
 class Base64ToImageTransformer implements DataTransformerInterface
 {
     use Base64Helper;
 
+    /**
+     * @return Base64Array
+     */
     public function transform($value): array
     {
         if (!$value instanceof File || false === $value->getRealPath()) {
@@ -22,6 +29,9 @@ class Base64ToImageTransformer implements DataTransformerInterface
         return ['base64' => $this->contentToBase64($value->getRealPath())];
     }
 
+    /**
+     * @param Base64Array $value
+     */
     public function reverseTransform($value): ?UploadedFile
     {
         if (!\is_array($value) || !($value['base64'] ?? null)) {
