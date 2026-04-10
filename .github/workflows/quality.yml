@@ -12,8 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
-        symfony-require: ['5.4.*', '6.4.*', '7.0.*']
+        php-version: ['8.5']
+        symfony-require: ['7.4.*']
 
     steps:
       - name: 'Setup PHP'
@@ -39,8 +39,8 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
-        symfony-require: ['5.4.*', '6.4.*', '7.0.*']
+        php-version: ['8.5']
+        symfony-require: ['7.4.*']
 
     steps:
       - name: 'Setup PHP'

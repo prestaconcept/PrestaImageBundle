@@ -81,7 +81,7 @@ abstract class ImageTypeTestCase extends TypeTestCase
         if (\class_exists('Vich\UploaderBundle\Mapping\PropertyMappingResolver')) {
             $factory = new PropertyMappingFactory(
                 new MetadataReader($this->advancedMetadataFactory),
-                new PropertyMappingResolver($this->container, ['default' => []])
+                new PropertyMappingResolver([], [], ['default' => []])
             );
         } else {
             $factory = new PropertyMappingFactory(

@@ -54,7 +54,7 @@ final class DeleteFileListenerTest extends ImageTypeTestCase
     public function testShouldNotTriggerRemovingTheFileFromTheFilesystemIfSubmitted(
         $data,
         array $options,
-        bool $delete = null
+        bool|null $delete = null
     ): void {
         $this->storage->expects($this->never())->method('remove');
 
