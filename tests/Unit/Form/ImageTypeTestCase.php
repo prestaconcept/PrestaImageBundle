@@ -9,6 +9,7 @@ use Metadata\ClassHierarchyMetadata;
 use PHPUnit\Framework\MockObject\MockObject;
 use Presta\ImageBundle\Form\Type\ImageType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Extension\Validator\ViolationMapper\ViolationMapperInterface;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -69,7 +70,7 @@ abstract class ImageTypeTestCase extends TypeTestCase
         parent::setUp();
     }
 
-    protected function getExtensions(): array
+    protected function getExtensions(?ViolationMapperInterface $violationMapper = null): array
     {
         $type = new ImageType($this->storage, $this->createUploadHandler());
 

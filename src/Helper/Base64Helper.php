@@ -16,7 +16,7 @@ trait Base64Helper
         // @codeCoverageIgnoreEnd
 
         $imageInfo = getimagesizefromstring($imageData);
-        if (false === $imageInfo || !array_key_exists('mime', $imageInfo)) {
+        if (false === $imageInfo) {
             throw new \RuntimeException('The file does not seem to be an image.');
         }
 

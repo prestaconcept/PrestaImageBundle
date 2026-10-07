@@ -30,7 +30,7 @@ class Base64ToImageTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param Base64Array $value
+     * @param Base64Array|null $value
      */
     public function reverseTransform($value): ?UploadedFile
     {
@@ -59,7 +59,7 @@ class Base64ToImageTransformer implements DataTransformerInterface
         fwrite($file, $base64);
 
         $metadata = stream_get_meta_data($file);
-        $filename = $metadata['uri'];
+        $filename = $metadata['uri'] ?? null;
 
         fclose($file);
 

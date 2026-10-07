@@ -14,6 +14,17 @@ jobs:
       matrix:
         php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
         symfony-require: ['5.4.*', '6.4.*', '7.4.*', '8.0.*']
+        exclude:
+          # Symfony 7.4 requires PHP >= 8.2
+          - php-version: '8.1'
+            symfony-require: '7.4.*'
+          # Symfony 8.0 requires PHP >= 8.4
+          - php-version: '8.1'
+            symfony-require: '8.0.*'
+          - php-version: '8.2'
+            symfony-require: '8.0.*'
+          - php-version: '8.3'
+            symfony-require: '8.0.*'
 
     steps:
       - name: 'Setup PHP'
@@ -21,6 +32,7 @@ jobs:
         with:
           php-version: '${{ matrix.php-version }}'
           coverage: 'none'
+          tools: 'flex'
 
       - name: 'Checkout sources'
         uses: 'actions/checkout@v3'
@@ -35,7 +47,7 @@ jobs:
     name: 'Code coverage'
     runs-on: 'ubuntu-latest'
     env:
-      SYMFONY_REQUIRE: '7.0.*'
+      SYMFONY_REQUIRE: '7.4.*'
 
     steps:
       - name: 'Setup PHP'
@@ -43,6 +55,7 @@ jobs:
         with:
           php-version: '8.3'
           coverage: 'pcov'
+          tools: 'flex'
 
       - name: 'Checkout sources'
         uses: 'actions/checkout@v3'
